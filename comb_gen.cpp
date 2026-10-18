@@ -31,7 +31,7 @@ void print(const vector<int>& a){
     cout<<"}\n";
 }
 
-int main() {
+int main() { 
     while(true){
         cout<<"1. hoan vi \n";
         cout<<"2. to hop \n";
