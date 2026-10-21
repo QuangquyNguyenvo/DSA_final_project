@@ -34,9 +34,9 @@ bool legacyNextGray(vector<int>& a, int& tmp){
     a[j] ^= 1; //lật tại 0 hoặc sau j đã tìm thấy 1
     return true; //tìm tiếp
 }
-bool graycode(int n){
-    //2^n
-    int total = 1<<n;
+// Gray Code
+void graycode(int n){
+    int total = 1<<n; //2^n
 
     for(int i=0; i<total;i++) {
         int gray= i^(i>>1);
@@ -46,7 +46,34 @@ bool graycode(int n){
     }
     cout<<"Total: "<<total<<'\n';
 }
+// Verify xem gray code mình sinh ra có đúng quy tắc không
+bool verifyGray(int n){
+    int total = 1<<n; //số tập con 2^n
+    int previous = -1; // -1 = chưa có mã trước nó
+    vector<bool> seen(total, false); //seen[i]=true if x đã xuất hiện
+    int cnt=0; //đếm số tập đã sinh
 
+    for(int i=0;i<total;i++){
+        //tạo lại graycode theo quy tắc của mình;
+        int current = i^(i>>1);
+        
+        //1. kiểm tra phạm vi
+        if(current<0 || current>=total) return false;
+
+        //2. kiểm tra trùng lặp
+        if(seen[current]) return false;
+        else seen[current] = true;
+
+        //3. check xem có thật sự đảo đúng chính xác 1 bit không
+        if(previous!=-1){
+            int diff = previous ^ current;
+            if(__builtin_popcount(diff)!=1) return false;
+        } 
+        previous = current;
+        cnt++;
+    }
+    return cnt==total; //4. tổng số tập đã sinh đúng bằng 2^n;
+}
 void print(const vector<int>& a){
     cout<<"{";
     for(int i=0;i<a.size();i++) {
@@ -103,6 +130,8 @@ int main() {
         else if(choice==3){
             int n; cout<<"n: "; cin>>n;
             graycode(n);
+            if(verifyGray(n)) cout<<"gray code sinh đúng \n";
+            else cout<<"gray code sinh sai \n";
         }
     }
 }
