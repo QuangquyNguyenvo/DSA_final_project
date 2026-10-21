@@ -22,7 +22,7 @@ bool tohop(vector<int>& a, int n){
     for(int j=i+1;j<k;j++) a[j]=a[j-1]+1; //đặt phần sau về nhỏ nhất (tăng dần liên tiếp)
     return true;
 }
-bool NextGray(vector<int>& a, int& tmp){
+bool legacyNextGray(vector<int>& a, int& tmp){
     tmp ^= 1; //lật cộng thêm 1 hoặc chuyển đổi kế tiếp
     int j = 0; 
     if(tmp == 0){
@@ -34,6 +34,19 @@ bool NextGray(vector<int>& a, int& tmp){
     a[j] ^= 1; //lật tại 0 hoặc sau j đã tìm thấy 1
     return true; //tìm tiếp
 }
+bool graycode(int n){
+    //2^n
+    int total = 1<<n;
+
+    for(int i=0; i<total;i++) {
+        int gray= i^(i>>1);
+        cout<<"{ ";
+        for(int j=n-1; j>=0;j--) cout<<((gray>>j)&1)<<" ";
+        cout<<"}\n";
+    }
+    cout<<"Total: "<<total<<'\n';
+}
+
 void print(const vector<int>& a){
     cout<<"{";
     for(int i=0;i<a.size();i++) {
@@ -88,19 +101,8 @@ int main() {
 
         }
         else if(choice==3){
-            cout <<"kích cỡ subset mã Grey: ";
-            int n; cin >> n;
-            int tmp = 0;
-            vector<int> a(n, 0); //bắt đầu với subset đầu tiên: 000...0
-            int cnt = 1;
-            do{  
-            cout<< cnt <<setw(2)<<". { ";
-                 for(auto x:a){
-                    cout << x <<" ";
-                }
-                cout <<"}\n";
-                  cnt++;
-            } while(NextGray(a, tmp));
+            int n; cout<<"n: "; cin>>n;
+            graycode(n);
         }
     }
 }
