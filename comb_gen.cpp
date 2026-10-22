@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 #define ll long long
 using namespace std;
-bool hoanvi(vector<int>& a){
+bool nextPermutation(vector<int>& a){
     int i=a.size()-2;
     while(i>=0 && a[i]>=a[i+1]) i--; //tìm pivot: vị trí phải nhất có a[i] < a[i+1]
     if(i<0) return false; //dãy giảm dần -> hết hoán vị
@@ -13,7 +13,7 @@ bool hoanvi(vector<int>& a){
     reverse(a.begin()+i+1, a.end()); //đoạn sau pivot đang giảm dần, đảo lại cho nhỏ nhất
     return true;
 }
-bool tohop(vector<int>& a, int n){
+bool nextCombination(vector<int>& a, int n){
     int k = a.size();
     int i=k-1;
     while(i>=0 && a[i]==n-k+i+1) i--; //bỏ qua vị trí đã đạt giá trị tối đa n-k+i+1
@@ -24,59 +24,59 @@ bool tohop(vector<int>& a, int n){
 }
 bool legacyNextGray(vector<int>& a, int& tmp){
     tmp ^= 1; //lật cộng thêm 1 hoặc chuyển đổi kế tiếp
-    int j = 0; 
+    int j = 0;
     if(tmp == 0){
-        while(j < a.size() && a[j] != 1){
+        while(j < (int)a.size() && a[j] != 1){
             ++j; //tăng lên tìm 1 gần nhất
         } ++j; //số ngay sau 1
     }
-    if(j >= a.size()) return false; //đã hết
+    if(j >= (int)a.size()) return false; //đã hết
     a[j] ^= 1; //lật tại 0 hoặc sau j đã tìm thấy 1
     return true; //tìm tiếp
 }
-// Gray Code
-void graycode(int n){
+// Kiểm tra một mã Gray vừa được sinh ra.
+// Hàm nhận đúng giá trị mà graycode() đã in, không tự sinh lại mã bằng công thức.
+bool verifyGray(int current, int previous, vector<bool>& seen){
+    int total = seen.size(); //số tập con 2^n
+
+    //1. kiểm tra phạm vi
+    if(current<0 || current>=total) return false;
+
+    //2. kiểm tra trùng lặp
+    if(seen[current]) return false;
+    seen[current] = true;
+
+    //3. check xem có thật sự đảo đúng chính xác 1 bit không
+    if(previous!=-1){
+        int diff = previous ^ current;
+        if(__builtin_popcount(diff)!=1) return false;
+    }
+    return true;
+}
+// Gray Code: sinh, in và đưa từng mã qua verifyGray() để kiểm tra
+bool graycode(int n){
     int total = 1<<n; //2^n
+    vector<bool> seen(total, false); //seen[x]=true nếu mã x đã xuất hiện
+    int previous = -1; // -1 = chưa có mã trước nó
+    int cnt = 0; //đếm số mã đã sinh
+    bool ok = true;
 
     for(int i=0; i<total;i++) {
         int gray= i^(i>>1);
         cout<<"{ ";
         for(int j=n-1; j>=0;j--) cout<<((gray>>j)&1)<<" ";
         cout<<"}\n";
-    }
-    cout<<"Total: "<<total<<'\n';
-}
-// Verify xem gray code mình sinh ra có đúng quy tắc không
-bool verifyGray(int n){
-    int total = 1<<n; //số tập con 2^n
-    int previous = -1; // -1 = chưa có mã trước nó
-    vector<bool> seen(total, false); //seen[i]=true if x đã xuất hiện
-    int cnt=0; //đếm số tập đã sinh
 
-    for(int i=0;i<total;i++){
-        //tạo lại graycode theo quy tắc của mình;
-        int current = i^(i>>1);
-        
-        //1. kiểm tra phạm vi
-        if(current<0 || current>=total) return false;
-
-        //2. kiểm tra trùng lặp
-        if(seen[current]) return false;
-        else seen[current] = true;
-
-        //3. check xem có thật sự đảo đúng chính xác 1 bit không
-        if(previous!=-1){
-            int diff = previous ^ current;
-            if(__builtin_popcount(diff)!=1) return false;
-        } 
-        previous = current;
+        if(!verifyGray(gray, previous, seen)) ok = false;
+        previous = gray;
         cnt++;
     }
-    return cnt==total; //4. tổng số tập đã sinh đúng bằng 2^n;
+    cout<<"Tong so ma Gray: "<<cnt<<'\n';
+    return ok && cnt==total; //4. tổng số mã đã sinh đúng bằng 2^n
 }
 void print(const vector<int>& a){
     cout<<"{";
-    for(int i=0;i<a.size();i++) {
+    for(int i=0;i<(int)a.size();i++) {
         if(i) cout<<", ";
         cout<<a[i];
     }
@@ -85,10 +85,10 @@ void print(const vector<int>& a){
 
 int main() {
     while(true){
-        cout<<"1. hoan vi \n";
-        cout<<"2. to hop \n";
-        cout<<"3. tap con Greycode\n";
-        cout<<"0. Exit \n choice: ";
+        cout<<"1. Sinh hoan vi (Algorithm L)\n";
+        cout<<"2. Sinh to hop chap k cua n\n";
+        cout<<"3. Sinh tap con bang Gray Code\n";
+        cout<<"0. Thoat\n Lua chon: ";
         ll choice;
         if(!(cin>>choice)) break; //nhập chữ thay vì số thì dừng while để thoát chương trình
         if(choice==0) break;
@@ -96,7 +96,7 @@ int main() {
             ll n; cout<<"n: "; cin>>n;
             //chặn n âm (có thể gây crash) và n quá lớn (sẽ in quá nhiều dòng)
             if(n<0||n>10) {
-                cout<<"nhap sai n roi kia (0 <= n <= 10) \n";
+                cout<<"Loi: n phai thoa 0 <= n <= 10\n";
                 continue;
             }
             vector<int> a(n);
@@ -106,14 +106,14 @@ int main() {
             do{
                 print(a);
                 cnt++;
-            } while(hoanvi(a)); //tìm hoán vị tiếp theo, false là hết
-            cout<<"total permutation: "<<cnt<<'\n'; //để đối chiếu với n!
+            } while(nextPermutation(a)); //tìm hoán vị tiếp theo, false là hết
+            cout<<"Tong so hoan vi: "<<cnt<<'\n'; //để đối chiếu với n!
         }
         else if(choice==2){
             ll n,k; cout<<"n k: "; cin>>n>>k; //chọn k phần tử từ {1..n}
             //chặn k > n, số âm và n quá lớn
             if(n<0||n>20 || k<0 || k>n) {
-                cout<<"nhap sai n roi kia \n";
+                cout<<"Loi: can 0 <= k <= n <= 20\n";
                 continue;
             }
             vector<int> a(k);
@@ -123,15 +123,19 @@ int main() {
             do{
                 print(a);
                 cnt++;
-            } while(tohop(a,n)); //lặp đến khi tohop trả false (hết tổ hợp)
-            cout<<"total combination: "<<cnt<<'\n'; //để đối chiếu với C(n,k)
+            } while(nextCombination(a,n)); //lặp đến khi nextCombination trả false (hết tổ hợp)
+            cout<<"Tong so to hop: "<<cnt<<'\n'; //để đối chiếu với C(n,k)
 
         }
         else if(choice==3){
             int n; cout<<"n: "; cin>>n;
-            graycode(n);
-            if(verifyGray(n)) cout<<"gray code sinh đúng \n";
-            else cout<<"gray code sinh sai \n";
+            //chặn n âm (1<<n không hợp lệ) và n > 30 (1<<n tràn int)
+            if(n<0||n>30) {
+                cout<<"Loi: n phai thoa 0 <= n <= 30\n";
+                continue;
+            }
+            if(graycode(n)) cout<<"Kiem tra Gray Code: DUNG\n";
+            else cout<<"Kiem tra Gray Code: SAI\n";
         }
     }
 }
