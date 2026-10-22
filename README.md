@@ -219,6 +219,9 @@ Mục tiêu của tuần này:
 - Xây dựng test case kiểm chứng kết quả.
 - Kiểm thử chéo và tích hợp thuật toán.
 
+**Minh chứng:**
+![Kế hoạch tuần 2 và tuần 3 được viết tay trên Scrble](img/week_2_planning.png)
+
 ## 2. Công việc thực hiện
 
 ### 2.1. Nghiên cứu Gray Code
@@ -335,6 +338,56 @@ Ví dụ với i = 3, i + 1 = 4:
 - Kiểm tra: G(3) = 010, G(4) = 110.
 
 Đây cũng chính là điều kiện mà hàm `verifyGray()` kiểm tra bằng `__builtin_popcount(diff) == 1`.
+
+### 3.4. Kiểm tra số lượng cấu hình với n ≥ 10
+
+Theo yêu cầu đề bài, nhóm kiểm tra tổng số cấu hình của cả ba thuật toán với n ≥ 10 và đối chiếu với công thức lý thuyết.
+
+| Mã | Thuật toán | Đầu vào | Kết quả kỳ vọng | Kết quả thực tế | Trạng thái |
+|---|---|---|---|---|---|
+| TC10 | Hoán vị | n = 10, mảng {1, 2, ..., 10} | 10! = 3 628 800 | `total permutation: 3628800` | PASS |
+| TC11 | Tổ hợp | n = 10, k = 5 | C(10, 5) = 252 | `total combination: 252` | PASS |
+| TC12 | Tổ hợp | n = 20, k = 10 | C(20, 10) = 184 756 | `total combination: 184756` | PASS |
+| TC13 | Tổ hợp, biên k = 0 | n = 10, k = 0 | C(10, 0) = 1 (tập rỗng) | `total combination: 1` | PASS |
+| TC14 | Gray Code | n = 10 | 2^10 = 1 024 | `Total: 1024` (xem TC06) | PASS |
+| TC15 | Hoán vị, toàn phần tử trùng | n = 4, mảng {2, 2, 2, 2} | 1 hoán vị duy nhất | `total permutation: 1` | PASS |
+
+> TC15 là edge case "all-duplicate values" mà đề bài nêu. Algorithm L dùng so sánh `>=` khi tìm pivot nên tự bỏ qua các hoán vị trùng nhau và chỉ sinh đúng một cấu hình.
+
+### 3.5. Trace tay Gray Code n = 4 và đối chiếu output
+
+Theo góp ý của thầy ở tuần 1, nhóm trace tay trường hợp n = 4 bằng công thức `G(i) = i ^ (i >> 1)` rồi đối chiếu với output của chương trình.
+
+![Bảng trace tay Gray Code với n = 4](img/week_2_trace_gray_n4.png)
+
+*Hình 3. Bảng trace tay Gray Code với n = 4.*
+
+Output của chương trình khi chọn menu 3 với n = 4:
+
+```
+{ 0 0 0 0 }
+{ 0 0 0 1 }
+{ 0 0 1 1 }
+{ 0 0 1 0 }
+{ 0 1 1 0 }
+{ 0 1 1 1 }
+{ 0 1 0 1 }
+{ 0 1 0 0 }
+{ 1 1 0 0 }
+{ 1 1 0 1 }
+{ 1 1 1 1 }
+{ 1 1 1 0 }
+{ 1 0 1 0 }
+{ 1 0 1 1 }
+{ 1 0 0 1 }
+{ 1 0 0 0 }
+Total: 16
+gray code sinh đúng
+```
+
+Kết quả: cả 16 mã trong bảng trace tay trùng khớp với output theo đúng thứ tự. Từ bảng trên có thể thấy thêm hai tính chất:
+- Tính phản xạ: 8 mã cuối (i = 8 đến 15) là 8 mã đầu đọc ngược và thêm bit 1 ở đầu.
+- Tần suất lật bit: trong 15 bước chuyển, bit 1 bị lật 8 lần, bit 2 lật 4 lần, bit 3 lật 2 lần và bit 4 lật 1 lần. Nhận xét này sẽ được dùng cho phần phân tích độ phức tạp khấu hao ở tuần 3.
 
 ## 4. Tích hợp và quản lý mã nguồn
 
