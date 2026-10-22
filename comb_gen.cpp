@@ -129,6 +129,11 @@ int main() {
         }
         else if(choice==3){
             int n; cout<<"n: "; cin>>n;
+            //chặn n âm (1<<n không hợp lệ) và n > 30 (1<<n tràn int)
+            if(n<0||n>30) {
+                cout<<"nhap sai n roi kia (0 <= n <= 30) \n";
+                continue;
+            }
             graycode(n);
             if(verifyGray(n)) cout<<"gray code sinh đúng \n";
             else cout<<"gray code sinh sai \n";
