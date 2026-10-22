@@ -449,8 +449,8 @@ Sau tuần 2, chương trình `comb_gen.cpp` đã tích hợp ba thuật toán t
 ## 8. Khai báo sử dụng AI
 nhóm không dùng AI và có quay lại bằng chứng rõ ràng y như tuần 1.
 
-Video minh chứng tuần 2 của Quý: https://drive.google.com/file/d/1zdsthhp6V-TzWV5NbmcEFX3qUSoUhG5G/view
+Video minh chứng quá trình tự nghiên cứu và viết mã nguồn tuần 2 của Quý: https://drive.google.com/file/d/1zdsthhp6V-TzWV5NbmcEFX3qUSoUhG5G/view
 
-Của Minh: https://drive.google.com/file/d/1R3uiYg4pMr_WFpjEqWWMRmxVvOA08siG/view
+Video minh chứng tuần 2 của Minh: https://drive.google.com/file/d/1R3uiYg4pMr_WFpjEqWWMRmxVvOA08siG/view
 
 
