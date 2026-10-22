@@ -38,6 +38,16 @@ Nội dung triển khai bao gồm:
 - Xử lý trường hợp không còn hoán vị kế tiếp (dãy đã giảm dần thì dừng).
 - In lần lượt các hoán vị ra màn hình, bắt đầu từ cấu hình nhỏ nhất.
 
+**Bảng hand trace:** Ví dụ với n = 3, mảng {1, 2, 3}
+| Bước | Hoán vị hiện tại | Pivot (vị trí i) | Successor (vị trí j) | Sau khi hoán đổi | Sau khi đảo suffix |
+|---|---|---|---|---|---|
+| 1 | 1 2 3 | a[2] = 2 | a[3] = 3 | 1 3 2 | 1 3 2 |
+| 2 | 1 3 2 | a[1] = 1 | a[3] = 2 | 2 3 1 | 2 1 3 |
+| 3 | 2 1 3 | a[2] = 1 | a[3] = 3 | 2 3 1 | 2 3 1 |
+| 4 | 2 3 1 | a[1] = 2 | a[2] = 3 | 3 2 1 | 3 1 2 |
+| 5 | 3 1 2 | a[2] = 1 | a[3] = 2 | 3 2 1 | 3 2 1 |
+| 6 | 3 2 1 | Không tìm thấy | — | — | Dừng (dãy đã giảm dần) |
+
 **Mã nguồn:** https://github.com/QuangquyNguyenvo/DSA_final_project/blob/1994c8c/comb_gen.cpp#L4-L15
 
 ### 2.3. Lexicographic Combination
@@ -49,6 +59,21 @@ Nội dung triển khai bao gồm:
 - Xác định giới hạn tối đa của từng vị trí.
 - Sinh tổ hợp kế tiếp theo thứ tự từ điển.
 - Xử lý điều kiện dừng và các trường hợp biên (ví dụ k > n).
+
+**Bảng hand trace:**  Ví dụ với n = 5, k = 3
+
+| Bước | Tổ hợp hiện tại | Vị trí cần tăng | Thao tác | Tổ hợp kế tiếp |
+|---|---|---|---|---|
+| 1 | 1 2 3 | 3 | Tăng 3 → 4 | 1 2 4 |
+| 2 | 1 2 4 | 3 | Tăng 4 → 5 | 1 2 5 |
+| 3 | 1 2 5 | 2 | Tăng 2 → 3, đặt lại vị trí 3 = 4 | 1 3 4 |
+| 4 | 1 3 4 | 3 | Tăng 4 → 5 | 1 3 5 |
+| 5 | 1 3 5 | 2 | Tăng 3 → 4, đặt lại vị trí 3 = 5 | 1 4 5 |
+| 6 | 1 4 5 | 1 | Tăng 1 → 2, đặt lại thành 3, 4 | 2 3 4 |
+| 7 | 2 3 4 | 3 | Tăng 4 → 5 | 2 3 5 |
+| 8 | 2 3 5 | 2 | Tăng 3 → 4, đặt lại vị trí 3 = 5 | 2 4 5 |
+| 9 | 2 4 5 | 1 | Tăng 2 → 3, đặt lại thành 4, 5 | 3 4 5 |
+| 10 | 3 4 5 | Không tìm thấy | Mọi vị trí đều đạt giới hạn | Dừng |
 
 **Mã nguồn:** https://github.com/QuangquyNguyenvo/DSA_final_project/blob/1994c8c/comb_gen.cpp#L16-L24
 
@@ -202,11 +227,21 @@ Gray Code là một phương pháp mã hoá nhị phân mà hai trạng thái li
 
 Với n phần tử, chương trình cần sinh đủ $$2^n$$ tập con khác nhau. Ví dụ với n=3:
 
-[insert cái hình trace tay n=3]
+| i | Nhị phân thường của i | i >> 1 | Mã Gray G(i) | Thao tác |
+|---|---|---|---|---|
+| 0 | 000 | 000 | 000 | Khởi tạo (tập rỗng) |
+| 1 | 001 | 000 | 001 | Lật bit 1 → thêm phần tử 1 |
+| 2 | 010 | 001 | 011 | Lật bit 2 → thêm phần tử 2 |
+| 3 | 011 | 001 | 010 | Lật bit 1 → bớt phần tử 1 |
+| 4 | 100 | 010 | 110 | Lật bit 3 → thêm phần tử 3 |
+| 5 | 101 | 010 | 111 | Lật bit 1 → thêm phần tử 1 |
+| 6 | 110 | 011 | 101 | Lật bit 2 → bớt phần tử 2 |
+| 7 | 111 | 011 | 100 | Lật bit 1 → bớt phần tử 1 |
+
 
 ### 2.2. Phân tích mã nguồn ban đầu
 
-Phiên bản ban đầu sử dụng một mảng số nguyên để lưu các bit của trạng thái hiện tại và một biến phbụ để luân phiên hai trường hợp lựa chọn vị trí cần thay đổi.
+Phiên bản ban đầu sử dụng một mảng số nguyên để lưu các bit của trạng thái hiện tại và một biến phụ để luân phiên hai trường hợp lựa chọn vị trí cần thay đổi.
 
 #### Thuật toán hoạt động bằng cách:
 - khởi tạo trạng thái gồm n bit 0.
@@ -217,7 +252,7 @@ Phiên bản ban đầu sử dụng một mảng số nguyên để lưu các bi
 
 > Phương pháp này cập nhật trực tiếp trạng thái hiện tại, mỗi lần chỉ thay đổi một bit.
 
-**Mã nguồn ban đầu: ** [link blob]
+**Mã nguồn ban đầu:** https://github.com/QuangquyNguyenvo/DSA_final_project/blob/36f11ed/comb_gen.cpp#L25-L36
 
 ### 2.3. Nghiên cứu phương pháp Binary Reflected Gray Code
 
@@ -232,20 +267,20 @@ Trong đó:
 
 > Công thức có thể hiểu thông qua quy tắc giữa nguyên bit đầu tiên, sau đó xác định các bit Gray còn lại bằng phép XOR giữa hai bit nhị phân kề nhau. Vì vậy, chương trình có thể tính trục tiếp mã Gray từ chỉ số i mà không cần duy trì mảng trạng thái cuả mã trước đó.
 
-**Mã nguồn cải tiến: ** []
+**Mã nguồn cải tiến:**  https://github.com/QuangquyNguyenvo/DSA_final_project/blob/030871b/comb_gen.cpp#L38-L48
 
 Ví dụ với n=10:
 - Ta có 1 byte = 8 bit và mỗi phần tử int tốn 4 byte tương đương 32 bit.
 - Với mảng gồm 10 phần tử int thì sẽ tốn 40 byte tương đương 320 bit.
 
-[insert cái bảng tiêu chí ở đây nha Minh]
+| Tiêu chí | Phiên bản ban đầu | Phương pháp Binary Reflected Gray Code |
+|---|---|---|
+| Biểu diễn dưới dạng | Mảng `vector<int>` gồm n phần tử, mỗi phần tử lưu một bit 0 hoặc 1 | Một số nguyên, mỗi bit của số đại diện cho một phần tử |
+| Phương pháp | Sinh tuần tự từ trạng thái trước, dùng biến `tmp` (parity) để luân phiên hai quy tắc lật bit | Tính trực tiếp mã Gray thứ i bằng công thức `i ^ (i >> 1)` |
+| Bộ nhớ | n × 4 byte (n = 10 → 40 byte) | 4 byte cố định cho một biến int |
+| Worst-case (mỗi bước sinh) | O(n) do phải quét mảng để tìm bit 1 đầu tiên | O(1) cho việc tính mã (chưa tính thời gian in ra) |
+| Khả năng mở rộng | Không bị giới hạn bởi độ rộng số nguyên, n chỉ phụ thuộc bộ nhớ | Bị giới hạn bởi độ rộng kiểu dữ liệu: int an toàn với n ≤ 30, dùng `long long` thì tối đa khoảng n ≤ 62 |
 
-| Tiêu chí | Phiên bản ban đầu | phương pháp Binary Reflected Gray Code |
-+ Biểu diễn dưới dạng 
-+ Phương pháp
-+ Bộ nhớ
-+ Worst-case 
-+ Khả năng mở rộng
 
 > Như vậy phương pháp XOR có lợi thế về cách biểu diễn dữ liệu và không cần quét mảng để tìm vị trí cần thay đổi. Tuy nhiên cái gì cũng có trade-off của nó, phương pháp ban đầu vẫn có ưu điểm khi cần xử lý các cấu hình có độ dài bit lớn hơn độ rộng của một số nguyên.
 
@@ -264,28 +299,78 @@ việc so sánh tốc độ thực thi sẽ được thực hiện ở giai đo�
 
 Điều kiện kiểm tra bằng phép XOR giữa trạng thái hiện tại và trạng thái trước đó. Nếu số lượng bit 1 trong kết quả XOR bằng đúng 1 thì bước chuyển thoả mãn tính chất Gray Code. Hàm `verifyGray()` được xây dựng để kiểm tra đầu ra của thuật toán mà không cần sử dụng lại công thức sinh mã Gray.
 
-**Mã nguồn hàm verify:** [link blob]. 
+**Mã nguồn hàm verify:** https://github.com/QuangquyNguyenvo/DSA_final_project/blob/main/comb_gen.cpp#L50-L76
 
 ### 3.2. Các trường hợp kiểm thử
 
-insert cái bảng kiểm thử các trường hợp
+
+| Mã | Trường hợp | Đầu vào | Kết quả kỳ vọng | Kết quả thực tế | Trạng thái |
+|---|-----|-----|---|---|---|
+| TC01 | Biên n = 0 | n = 0 | 2^0 = 1 tập con (tập rỗng) | Sinh 1 tập con, `Total: 1`, verify đúng | PASS |
+| TC02 | n nhỏ nhất có phần tử | n = 1 | 2 tập con: {0}, {1} | Sinh `{0}`, `{1}`, `Total: 2`, verify đúng | PASS |
+| TC03 | Cơ bản | n = 2 | 4 mã: 00, 01, 11, 10 | Sinh đúng thứ tự 00 → 01 → 11 → 10, `Total: 4` | PASS |
+| TC04 | Cơ bản (đối chiếu trace tay) | n = 3 | 8 mã: 000, 001, 011, 010, 110, 111, 101, 100 | Sinh đúng 8 mã, khớp với bảng trace tay ở mục 2.1 | PASS |
+| TC05 | Kiểm tra tính phản xạ | n = 4 | 16 mã, nửa sau là nửa đầu đảo ngược và thêm bit 1 ở đầu | Sinh đúng 16 mã, mã thứ 8 là 0100 và mã thứ 9 là 1100 | PASS |
+| TC06 | Kích thước trung bình | n = 10 | 2^10 = 1024 mã, các mã liên tiếp khác nhau đúng 1 bit | `Total: 1024`, `verifyGray()` trả về đúng | PASS |
+| TC07 | Kích thước lớn | n = 20 | 2^20 = 1 048 576 mã | `Total: 1048576`, `verifyGray()` trả về đúng | PASS |
+| TC08 | Dữ liệu không hợp lệ (âm) | n = -1 | Báo lỗi và quay lại menu | Chương trình crash (`std::bad_alloc`) | FAIL |
+| TC09 | Vượt giới hạn int | n = 31 | Báo lỗrình crash (`std::bad_alloc`) do `1<<31` tràn số | FAIL |
+
 
 ### 3.3. Giải thích tính chất Single-bit Difference
 
+Hai mã Gray liên tiếp luôn khác nhau đúng một bit, tức là mỗi bước chỉ thêm hoặc bớt đúng một phần tử khỏi tập con hiện tại.
+
+Xét hai chỉ số liên tiếp i và i + 1. Khi cộng 1, các bit 1 ở cuối của i chuyển thành 0 và bit 0 ngay trước đó chuyển thành 1, nên `i ^ (i+1)` là một dãy (k+1) bit 1 liên tiếp ở cuối. Khi đó:
+
+ G(i) ^ G(i+1) = (i ^ (i+1)) ^ ((i ^ (i+1)) >> 1)
+
+Hai dãy bit 1 này lệch nhau một vị trí nên triệt tiêu nhau, chỉ còn lại đúng một bit 1.
+
+Ví dụ với i = 3, i + 1 = 4:
+- i ^ (i+1) = 011 ^ 100 = 111
+- 111 ^ (111 >> 1) = 111 ^ 011 = 100 → chỉ khác đúng một bit.
+- Kiểm tra: G(3) = 010, G(4) = 110.
+
+Đây cũng chính là điều kiện mà hàm `verifyGray()` kiểm tra bằng `__builtin_popcount(diff) == 1`.
+
 ## 4. Tích hợp và quản lý mã nguồn
 
-- Mã nguồn Gray Code:
-- Mã nguồn Verify
-- Pull Request: [link PR của 2 đứa]
-- Commit: [...]
->viết thêm thông tin giúp nha Minh.
+Nhóm tiếp tục quản lý mã nguồn bằng GitHub theo quy trình: mỗi thành viên làm việc trên nhánh riêng, tạo Pull Request, thành viên còn lại review rồi mới merge vào nhánh `main`. Nhờ vậy mọi thay đổi đều được kiểm tra chéo trước khi tích hợp và lịch sử phát triển được lưu lại rõ ràng.
+
+**Mã nguồn Gray Code:**
+- Phiên bản ban đầu (`legacyNextGray`), cập nhật trực tiếp mảng trạng thái: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/030871b/comb_gen.cpp#L25-L36
+
+- Phiên bản cải tiến (`graycode`), tính trực tiếp bằng `G(i) = i ^ (i >> 1)`: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/030871b/comb_gen.cpp#L38-L48
+
+
+**Mã nguồn Verify:**
+- Hàm `verifyGray()` kiểm tra phạm vi, trùng lặp, khác đúng 1 bit và tổng số mã bằng 2^n: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/030871b/comb_gen.cpp#L50-L75
+
+**Pull Request:**
+- PR #3 (`week2`, Đào Nghiêm Minh): triển khai Gray Code phiên bản ban đầu và khung README tuần 2: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/3
+
+- PR #4 (`feature/graycode`, Nguyễn Võ Quang Quý): cải tiến Gray Code bằng bitwise, thêm hàm verify và bổ sung báo cáo: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/4
+
+**Commit:**
+- `36f11ed`: thêm phần Gray Code và README mới (Minh).
+- `9f53273`: tối ưu sinh Gray Code bằng thao
+- `b2bf47f`: bổ sung README báo cáo tuần 2 (Quý).
+- `030871b`: merge PR #4, tích hợp Gray Code
+
+
+Sau tuần 2, chương trình `comb_gen.cpp` đã t cùng một menu: sinh hoán vị (Algorithm L),sinh tổ hợp chập k của n và sinh tập con bằng Gray Code. Lựa chọn Gray Code tự động chạy `verifyGray()` để kiểm chứng
+kết quả ngay sau khi sinh.
+
 
 ## 5. Phân công công việc
 
-[inser cái bảng]
-nvqq : review mã nguồn, nghiên cứu phương pháp XOR, phân tích thiết kế, cải tiến mã nguồn, xây dựng hàm kiểm thử, viết và tổng hợp báo cáo.
-minh : tìm hiểu và triển khai gray code ban đầu, hỗ trợ kiểm thử các test case và tích hợp chương trình, viết và tổng hợp báo cáo.
-cả nhóm đều phải kiểm chéo và review kết quả cho nhau
+| Thành viên | Công việc tuần 2 |
+|---|---|
+| Đào Nghiêm Minh | tìm hiểu và triển khai gray code ban đầu, hỗ trợ kiểm thử các test case và tích hợp chương trình, viết và tổng hợp báo cáo. |
+| Nguyễn Võ Quang Quý | review mã nguồn, nghiên cứu phương pháp XOR, phân tích thiết kế, cải tiến mã nguồn, xây dựng hàm kiểm thử, viết và tổng hợp báo cáo. |
+| Cả nhóm | Kiểm tra chéo mã nguồn và báo cáo, nộp bài. |
+
 
 ## 6. Khó khăn và hướng giải quyết
 
@@ -300,7 +385,8 @@ cả nhóm đều phải kiểm chéo và review kết quả cho nhau
 ## 8. Khai báo sử dụng AI
 nhóm không dùng AI và có quay lại bằng chứng rõ ràng y như tuần 1.
 
-Video minh chứng tuần 2 của Quý: [lát gửi link cho fill vô dùm nha Minh]
-của Minh (nếu có):
+Video minh chứng tuần 2 của Quý: https://drive.google.com/file/d/1zdsthhp6V-TzWV5NbmcEFX3qUSoUhG5G/view
+
+Của Minh: https://drive.google.com/file/d/1R3uiYg4pMr_WFpjEqWWMRmxVvOA08siG/view
 
 
