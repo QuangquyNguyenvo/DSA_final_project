@@ -362,28 +362,9 @@ Theo góp ý của thầy ở tuần 1, nhóm trace tay trường hợp n = 4 b�
 
 *Hình 3. Bảng trace tay Gray Code với n = 4.*
 
-Output của chương trình khi chọn menu 3 với n = 4:
+![Output chương trình khi chọn menu 3 với n = 4](img/week_2_output_gray_n4.png)
 
-```
-{ 0 0 0 0 }
-{ 0 0 0 1 }
-{ 0 0 1 1 }
-{ 0 0 1 0 }
-{ 0 1 1 0 }
-{ 0 1 1 1 }
-{ 0 1 0 1 }
-{ 0 1 0 0 }
-{ 1 1 0 0 }
-{ 1 1 0 1 }
-{ 1 1 1 1 }
-{ 1 1 1 0 }
-{ 1 0 1 0 }
-{ 1 0 1 1 }
-{ 1 0 0 1 }
-{ 1 0 0 0 }
-Total: 16
-gray code sinh đúng
-```
+*Hình 4. Output của chương trình khi chọn menu 3 với n = 4.*
 
 Kết quả: cả 16 mã trong bảng trace tay trùng khớp với output theo đúng thứ tự. Từ bảng trên có thể thấy thêm hai tính chất:
 - Tính phản xạ: 8 mã cuối (i = 8 đến 15) là 8 mã đầu đọc ngược và thêm bit 1 ở đầu.
