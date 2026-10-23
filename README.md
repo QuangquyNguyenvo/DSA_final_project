@@ -2,9 +2,16 @@
 
 **Môn học:** Cấu trúc dữ liệu và Giải thuật.
 
-**Mã lớp học phần:** DASA230179_Dot1, HK1 2026–2027.
+**Mã lớp học phần:** DASA230179_Dot1, HK1 2026-2027.
 
 **Giảng viên hướng dẫn:** Huỳnh Xuân Phụng.
+
+**Thành viên nhóm:**
+
+| Họ và tên | MSSV |
+|---|---|
+| Nguyễn Võ Quang Quý | 25110055 |
+| Đào Nghiêm Minh | 25110042 |
 
 **GitHub Repository:** https://github.com/QuangquyNguyenvo/DSA_final_project
 
@@ -46,7 +53,7 @@ Nội dung triển khai bao gồm:
 | 3 | 2 1 3 | a[2] = 1 | a[3] = 3 | 2 3 1 | 2 3 1 |
 | 4 | 2 3 1 | a[1] = 2 | a[2] = 3 | 3 2 1 | 3 1 2 |
 | 5 | 3 1 2 | a[2] = 1 | a[3] = 2 | 3 2 1 | 3 2 1 |
-| 6 | 3 2 1 | Không tìm thấy | — | — | Dừng (dãy đã giảm dần) |
+| 6 | 3 2 1 | Không tìm thấy | - | - | Dừng (dãy đã giảm dần) |
 
 **Mã nguồn:** https://github.com/QuangquyNguyenvo/DSA_final_project/blob/1994c8c/comb_gen.cpp#L4-L15
 
@@ -103,11 +110,11 @@ Sau khi chạy, chương trình hiển thị menu cho phép lựa chọn thuật
 
 ### 2.5. Phân công công việc
 
-| Thành viên | Công việc tuần 1 |
-|---|---|
-| Nguyễn Võ Quang Quý | - Khởi tạo GitHub repository.<br>- Cài đặt Algorithm L bằng C++.<br>- Cài đặt thuật toán sinh tổ hợp bằng C++.<br>- Dựng khung báo cáo. |
-| Đào Nghiêm Minh | - Viết chú thích cho mã nguồn.<br>- Hoàn thiện báo cáo.<br>- Chụp ảnh minh họa test case. |
-| Cả nhóm | - Phân tích đề.<br>- Lập kế hoạch.<br>- Kiểm tra chéo mã nguồn và nội dung báo cáo của nhau. |
+| Thành viên | MSSV | Công việc tuần 1 |
+|---|---|---|
+| Nguyễn Võ Quang Quý | 25110055 | - Khởi tạo GitHub repository.<br>- Cài đặt Algorithm L bằng C++.<br>- Cài đặt thuật toán sinh tổ hợp bằng C++.<br>- Dựng khung báo cáo. |
+| Đào Nghiêm Minh | 25110042 | - Viết chú thích cho mã nguồn.<br>- Hoàn thiện báo cáo.<br>- Chụp ảnh minh họa test case. |
+| Cả nhóm | | - Phân tích đề.<br>- Lập kế hoạch.<br>- Kiểm tra chéo mã nguồn và nội dung báo cáo của nhau. |
 
 ## 3. Kiểm thử và kết quả
 
@@ -198,7 +205,7 @@ Trong tuần 1 này nhóm gần như không sử dụng bất kì công cụ LLM
 
 **Môn học:** Cấu trúc dữ liệu và Giải thuật.
 
-**Mã lớp học phần:** DASA230179_Dot1, HK1 2026–2027.
+**Mã lớp học phần:** DASA230179_Dot1, HK1 2026-2027.
 
 **Giảng viên hướng dẫn:** Huỳnh Xuân Phụng.
 
@@ -226,7 +233,7 @@ Mục tiêu của tuần này:
 
 ### 2.1. Nghiên cứu Gray Code
 
-Gray Code là một phương pháp mã hoá nhị phân mà hai trạng thái liên tiếp khác nhau đúng một bit. Khác với hệ nhị phân thông thường, Gray Code ưu tiên thay đổi tối thiểu giữa các trạng thái thay vì sắp xếp mã theo thứ tự tăng dần. Đối với bài toán sinh tập con, mỗi bit đại diện cho trạng thái được chọn hoặc không được chọn của một phần tử. Vì vậy việc thay đổi một bit tương đương với việc thao tác thêm hoặc loại bỏ đúng một phần tử khỏi tập con hiện tại.
+Gray Code là một phương pháp mã hoá nhị phân mà hai trạng thái liên tiếp khác nhau đúng một bit. Khác với hệ nhị phân thông thường, Gray Code ưu tiên thay đổi tối thiểu giữa các trạng thái thay vì sắp xếp mã theo thứ tự tăng dần. Đối với bài toán sinh tập con, mỗi bit đại diện cho trạng thái được chọn hoặc không được chọn của một phần tử. Vì vậy việc thay đổi một bit tương đương với việc thao tác thêm hoặc loại bỏ đúng một phần tử khỏi tập con hiện tại. [1], [4]
 
 Với n phần tử, chương trình cần sinh đủ $2^n$ tập con khác nhau. Ví dụ với n = 3:
 
@@ -259,11 +266,11 @@ Phiên bản ban đầu sử dụng một mảng số nguyên để lưu các bi
 
 ### 2.3. Nghiên cứu phương pháp Binary Reflected Gray Code
 
-Sau khi phân tích phiên bản ban đầu, nhóm nghiên cứu thêm phương pháp Binary Reflected Gray Code. Phương pháp này có thể tính trực tiếp mã Gray dựa trên chỉ số nhị phân bằng công thức:
+Sau khi phân tích phiên bản ban đầu, nhóm nghiên cứu thêm phương pháp Binary Reflected Gray Code. Phương pháp này có thể tính trực tiếp mã Gray dựa trên chỉ số nhị phân bằng công thức [3], [4]:
 
  G(i) = i ^ (i>>1)
 
-Trong đó:
+Trong đó (các phép toán bit tham khảo từ [2], [5]):
 - `i` : chỉ số của cấu hình cần sinh
 - `>>1` : dịch bit sang phải một vị trí
 - `^` : Phép XOR giữa các bit tương ứng.
@@ -411,11 +418,11 @@ Sau tuần 2, chương trình `comb_gen.cpp` đã tích hợp ba thuật toán t
 
 ## 5. Phân công công việc
 
-| Thành viên | Công việc tuần 2 |
-|---|---|
-| Đào Nghiêm Minh | - Tìm hiểu và triển khai Gray Code phiên bản ban đầu.<br>- Hỗ trợ kiểm thử các test case.<br>- Tích hợp chương trình.<br>- Viết và tổng hợp báo cáo. |
-| Nguyễn Võ Quang Quý | - Review mã nguồn.<br>- Nghiên cứu phương pháp XOR.<br>- Phân tích thiết kế.<br>- Cải tiến mã nguồn.<br>- Xây dựng hàm kiểm thử.<br>- Viết và tổng hợp báo cáo. |
-| Cả nhóm | - Kiểm tra chéo mã nguồn và báo cáo.<br>- Nộp bài. |
+| Thành viên | MSSV | Công việc tuần 2 |
+|---|---|---|
+| Đào Nghiêm Minh | 25110042 | - Tìm hiểu và triển khai Gray Code phiên bản ban đầu.<br>- Hỗ trợ kiểm thử các test case.<br>- Tích hợp chương trình.<br>- Viết và tổng hợp báo cáo. |
+| Nguyễn Võ Quang Quý | 25110055 | - Review mã nguồn.<br>- Nghiên cứu phương pháp XOR.<br>- Phân tích thiết kế.<br>- Cải tiến mã nguồn.<br>- Xây dựng hàm kiểm thử.<br>- Viết và tổng hợp báo cáo. |
+| Cả nhóm | | - Kiểm tra chéo mã nguồn và báo cáo.<br>- Nộp bài. |
 
 
 ## 6. Khó khăn và hướng giải quyết
@@ -434,11 +441,49 @@ Sau tuần 2, chương trình `comb_gen.cpp` đã tích hợp ba thuật toán t
 - Hoàn thiện báo cáo kỹ thuật và Self-Explanation.
 - Chuẩn bị cho phần vấn đáp đề tài.
 
-## 8. Khai báo sử dụng AI
-nhóm không dùng AI và có quay lại bằng chứng rõ ràng y như tuần 1.
+## 8. Khai báo sử dụng AI và nguồn tài liệu tham khảo
 
-Video minh chứng quá trình tự nghiên cứu và viết mã nguồn tuần 2 của Quý: https://drive.google.com/file/d/1zdsthhp6V-TzWV5NbmcEFX3qUSoUhG5G/view
+### 8.1. Khai báo sử dụng AI và nguồn gốc kiến thức
 
-Video minh chứng tuần 2 của Minh: https://drive.google.com/file/d/1R3uiYg4pMr_WFpjEqWWMRmxVvOA08siG/view
+Nhóm không sử dụng công cụ AI trong quá trình nghiên cứu, viết mã nguồn và viết báo cáo. Tương tự tuần 1, nhóm chỉ sử dụng Search Engine của Google để tìm kiếm và tra cứu tài liệu, từ đó tìm được các nguồn tham khảo được liệt kê ở mục 8.2. Toàn bộ quá trình thực hiện được quay video minh chứng (xem bên dưới). Các kiến thức sử dụng trong báo cáo đến từ những nguồn sau, và được đánh dấu [1]-[5] tại vị trí sử dụng trong báo cáo, tương ứng với danh sách ở mục 8.2.
 
+Các kiến thức nền tảng về Gray Code, biểu diễn nhị phân và tính chất thay đổi một bit giữa hai trạng thái liên tiếp đã được nhóm tiếp cận trong học phần Toán rời rạc và Lý thuyết đồ thị, đặc biệt thông qua nội dung Boolean Algebra và Karnaugh Map (K-map).
 
+Các thao tác bitwise như XOR, AND, OR và dịch bit cũng là những kiến thức lập trình đã được tiếp cận từ trước và tiếp tục được sử dụng trong quá trình luyện tập lập trình thi đấu, bao gồm ôn tập ICPC tại trường.
+
+**Video minh chứng quá trình thực hiện tuần 2**
+
+- **Nguyễn Võ Quang Quý:** [Xem video](https://drive.google.com/file/d/1zdsthhp6V-TzWV5NbmcEFX3qUSoUhG5G/view)
+- **Đào Nghiêm Minh:** [Xem video](https://drive.google.com/file/d/1R3uiYg4pMr_WFpjEqWWMRmxVvOA08siG/view)
+
+### 8.2. Tài liệu tham khảo
+
+**[1] Học phần Toán rời rạc và Lý thuyết đồ thị (Discrete Mathematics and Graph Theory)**
+
+Trường Đại học Sư phạm Kỹ thuật TP.HCM (HCMUTE).
+
+Nội dung liên quan: Boolean Algebra, Karnaugh Map (K-map), biểu diễn nhị phân và các tính chất của Gray Code.
+
+**[2] VNOI Wiki: Phép toán bit**
+
+[https://wiki.vnoi.info/algo/basic/bitwise-operators](https://wiki.vnoi.info/algo/basic/bitwise-operators)
+
+Nội dung liên quan: Các toán tử bitwise, XOR, phép dịch bit và ứng dụng trong lập trình.
+
+**[3] GeeksforGeeks: Generate n-bit Gray Codes**
+
+[https://www.geeksforgeeks.org/dsa/generate-n-bit-gray-codes/](https://www.geeksforgeeks.org/dsa/generate-n-bit-gray-codes/)
+
+Nội dung liên quan: Các phương pháp sinh Gray Code, công thức `G(i) = i ^ (i >> 1)` và ví dụ sinh mã Gray bằng thao tác bitwise.
+
+**[4] CP-Algorithms: Gray Code**
+
+[https://cp-algorithms.com/algebra/gray-code.html](https://cp-algorithms.com/algebra/gray-code.html)
+
+Nội dung liên quan: Binary Reflected Gray Code, công thức chuyển đổi giữa mã nhị phân và mã Gray, cùng các tính chất của dãy Gray Code.
+
+**[5] Viblo: Thao tác xử lý bit và ứng dụng (Bit Manipulation)**
+
+[https://viblo.asia/p/thao-tac-xu-ly-bit-va-ung-dung-bit-manipulation-3kY4gxl9JAe](https://viblo.asia/p/thao-tac-xu-ly-bit-va-ung-dung-bit-manipulation-3kY4gxl9JAe)
+
+Nội dung liên quan: Các thao tác xử lý bit và ứng dụng trong lập trình.
