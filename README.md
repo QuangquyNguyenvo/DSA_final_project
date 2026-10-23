@@ -460,7 +460,7 @@ Các thao tác bitwise như XOR, AND, OR và dịch bit cũng là những kiến
 
 **[1] Học phần Toán rời rạc và Lý thuyết đồ thị (Discrete Mathematics and Graph Theory)**
 
-Trường Đại học Sư phạm Kỹ thuật TP.HCM (HCMUTE).
+Trường Đại học Công nghệ Kỹ thuật TP.HCM (HCMUTE).
 
 Nội dung liên quan: Boolean Algebra, Karnaugh Map (K-map), biểu diễn nhị phân và các tính chất của Gray Code.
 
