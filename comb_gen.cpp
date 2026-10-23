@@ -1,6 +1,8 @@
 #include<bits/stdc++.h>
 #define ll long long
 using namespace std;
+//hiện tại việc đổi màu đang dựa vào các mã ANSI escape, nó phần nào tác động vào terminal khi terminal thực hiện đọc code và visualize
+
 bool nextPermutation(vector<int>& a){
     int i=a.size()-2;
     while(i>=0 && a[i]>=a[i+1]) i--; //tìm pivot: vị trí phải nhất có a[i] < a[i+1]
@@ -71,7 +73,7 @@ bool graycode(int n){
         previous = gray;
         cnt++;
     }
-    cout<<"Tong so ma Gray: "<<cnt<<'\n';
+    cout<<"\033[36m"<<"Tong so ma Gray: "<<cnt<<"\033[0m"<<'\n';
     return ok && cnt==total; //4. tổng số mã đã sinh đúng bằng 2^n
 }
 void print(const vector<int>& a){
@@ -85,32 +87,43 @@ void print(const vector<int>& a){
 
 int main() {
     while(true){
-        cout<<"1. Sinh hoan vi (Algorithm L)\n";
-        cout<<"2. Sinh to hop chap k cua n\n";
-        cout<<"3. Sinh tap con bang Gray Code\n";
-        cout<<"0. Thoat\n Lua chon: ";
+        cout<<"\033[33m"<<"===========COMBINATION GENERATOR==========="<<"\033[0m"<<"\n";
+        cout<<"\033[33m"<<"     1. Sinh hoan vi (Algorithm L)"<<"\033[0m"<<"\n";
+        cout<<"\033[33m"<<"     2. Sinh to hop chap k cua n"<<"\033[0m"<<"\n";
+        cout<<"\033[33m"<<"     3. Sinh tap con bang Gray Code"<<"\033[0m"<<"\n";
+        cout<<"\033[33m"<<"     0. Thoat\n ";
+        cout<<"\033[36m"<<" -> Lua chon: "<<"\033[0m"<<"\n";
+        cout<<"\033[33m"<<"============================================"<<"\033[0m"<<"\n";
         ll choice;
         if(!(cin>>choice)) break; //nhập chữ thay vì số thì dừng while để thoát chương trình
         if(choice==0) break;
         if(choice==1) { // lexicographic permutation (hoán vị)
-            ll n; cout<<"n: "; cin>>n;
+            cout<<"\033[33m"<<"============================================"<<"\033[0m"<<"\n";
+            ll n; cout<<"So luong phan tu (n): "; cin>>n;
             //chặn n âm (có thể gây crash) và n quá lớn (sẽ in quá nhiều dòng)
+            cout<<"--------------------------------------------\n";
             if(n<0||n>10) {
                 cout<<"Loi: n phai thoa 0 <= n <= 10\n";
                 continue;
             }
             vector<int> a(n);
-            for(int i=0;i<n;i++) cout<<"a["<<i<<"]: ",cin>>a[i]; //nhập phần tử
+            for(int i=0;i<n;i++) cout<<"Phan tu ["<<i<<"] = ", cin>>a[i]; //nhập phần tử
             sort(a.begin(),a.end()); //sắp xếp về hoán vị đầu tiên
             ll cnt=0;//đếm lượt hoán vị
+            cout<<"--------------------------------------------\n";
             do{
                 print(a);
                 cnt++;
             } while(nextPermutation(a)); //tìm hoán vị tiếp theo, false là hết
-            cout<<"Tong so hoan vi: "<<cnt<<'\n'; //để đối chiếu với n!
+            cout<<"\033[36m"<<"Tong so hoan vi: "<<cnt<<"\033[0m"<<'\n'; //để đối chiếu với n!
+            cout<<"\n";
         }
         else if(choice==2){
-            ll n,k; cout<<"n k: "; cin>>n>>k; //chọn k phần tử từ {1..n}
+            cout<<"\033[33m"<<"============================================"<<"\033[0m"<<"\n";
+            ll n,k; cout<<"Co bao nhieu phan tu {1->n}: "; cin>>n; //chọn k phần tử từ {1..n}
+            cout<<"--------------------------------------------\n";
+            cout<<"Kich thuoc cua to hop: "; cin>>k;
+            cout<<"--------------------------------------------\n";
             //chặn k > n, số âm và n quá lớn
             if(n<0||n>20 || k<0 || k>n) {
                 cout<<"Loi: can 0 <= k <= n <= 20\n";
@@ -124,18 +137,22 @@ int main() {
                 print(a);
                 cnt++;
             } while(nextCombination(a,n)); //lặp đến khi nextCombination trả false (hết tổ hợp)
-            cout<<"Tong so to hop: "<<cnt<<'\n'; //để đối chiếu với C(n,k)
+            cout<<"\033[36m"<<"Tong so to hop: "<<cnt<<"\033[0m"<<'\n'; //để đối chiếu với C(n,k)
+            cout<<"\n";
 
         }
         else if(choice==3){
-            int n; cout<<"n: "; cin>>n;
+            cout<<"\033[33m"<<"============================================"<<"\033[0m"<<"\n";
+            int n; cout<<"Kich thuoc cua cac tap con Greycode: "; cin>>n;
             //chặn n âm (1<<n không hợp lệ) và n > 30 (1<<n tràn int)
+            cout<<"--------------------------------------------\n";
             if(n<0||n>30) {
                 cout<<"Loi: n phai thoa 0 <= n <= 30\n";
                 continue;
             }
-            if(graycode(n)) cout<<"Kiem tra Gray Code: DUNG\n";
-            else cout<<"Kiem tra Gray Code: SAI\n";
+            if(graycode(n)) cout<<"\033[36m"<<"Kiem tra Gray Code: DUNG"<<"\033[0m"<<"\n";
+            else cout<<"\033[31m"<<"Kiem tra Gray Code: SAI""\033[0m"<<"\n";
+            cout<<"\n";
         }
     }
 }
