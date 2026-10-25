@@ -767,7 +767,6 @@ Công việc tuần 3 được thực hiện trên nhánh `week3`, sau đó tíc
 - [`3e8d482`](https://github.com/QuangquyNguyenvo/DSA_final_project/commit/3e8d482): thêm báo cáo tuần 3 và phân tích độ phức tạp (Minh).
 - [`6ddda19`](https://github.com/QuangquyNguyenvo/DSA_final_project/commit/6ddda19): merge PR #9, tích hợp tuần 3 vào `main`.
 
-Phần benchmark (`benchmark.h` và lựa chọn **4. Benchmark** trên menu) chưa được tích hợp vào `main`, sẽ được bổ sung trong PR tiếp theo.
 
 Sau tuần 3, chương trình `comb_gen.cpp` có giao diện CLI hoàn chỉnh cho cả ba thuật toán: menu tô màu, kiểm tra dữ liệu đầu vào và in tổng số cấu hình để đối chiếu với công thức.
 
