@@ -487,3 +487,118 @@ Nội dung liên quan: Binary Reflected Gray Code, công thức chuyển đổi 
 [https://viblo.asia/p/thao-tac-xu-ly-bit-va-ung-dung-bit-manipulation-3kY4gxl9JAe](https://viblo.asia/p/thao-tac-xu-ly-bit-va-ung-dung-bit-manipulation-3kY4gxl9JAe)
 
 Nội dung liên quan: Các thao tác xử lý bit và ứng dụng trong lập trình.
+
+---
+# BÁO CÁO TIẾN ĐỘ (Tuần 3): 
+
+**Môn học:** Cấu trúc dữ liệu và Giải thuật.
+
+**Mã lớp học phần:** DASA230179_Dot1, HK1 2026-2027.
+
+**Giảng viên hướng dẫn:** Huỳnh Xuân Phụng.
+
+**GitHub Repository:** https://github.com/QuangquyNguyenvo/DSA_final_project
+
+## 1. Tổng quan
+
+## 2. Công việc thực hiện
+
+### 2.1. Phân tích độ phức tạp
+
+#### Nguyên tắc chung
+
+Cả 3 thuật toán đều dùng chung một công thức:
+
+> **Tổng thời gian = (số lần vòng lặp chạy) × (chi phí hàm sinh kế tiếp + chi phí `print`)**
+
+Số lần lặp nằm ở vòng `do…while` / `for` trong `main` hoặc `graycode`.
+Chi phí mỗi bước nằm trong các vòng `while` / `for` / `reverse` bên trong hàm sinh.
+
+---
+
+### 2.1.1. Sinh hoán vị: `nextPermutation`
+
+**Số lần lặp:** vòng `do…while` ở **dòng 114–117** chạy **n!** lần (nếu các phần tử khác nhau đôi một).
+
+**Chi phí mỗi lần gọi:**
+
+| Dòng | Đoạn code | Trường hợp xấu nhất |
+|---|---|---|
+| 8 | `while(i>=0 && a[i]>=a[i+1]) i--;` (tìm pivot) | O(n) |
+| 12 | `while(a[j]<=a[i]) j--;` (tìm phần tử thay thế) | O(n) |
+| 15 | `reverse(a.begin()+i+1, a.end());` | O(n) |
+
+- Trường hợp xấu nhất mỗi bước là **O(n)**. Tính trung bình (amortized) thì chỉ **O(1)**, vì pivot thường nằm ngay cuối dãy.
+- `print(a)` ở dòng 115 tốn **O(n)**.
+- `sort` ở dòng 111 tốn O(n log n) nhưng chỉ chạy một lần, nên không đáng kể.
+
+>**Kết luận:** Thời gian **O(n · n!)**, bị chi phối bởi việc in. Bộ nhớ **O(n)**.
+
+---
+
+### 2.1.2. Sinh tổ hợp chập k của n: `nextCombination`
+
+**Số lần lặp:** vòng `do…while` ở **dòng 136–139** chạy **C(n, k)** lần.
+
+**Chi phí mỗi lần gọi:**
+
+| Dòng | Đoạn code | Trường hợp xấu nhất |
+|---|---|---|
+| 21 | `while(i>=0 && a[i]==n-k+i+1) i--;` (bỏ qua các vị trí đã đạt tối đa) | O(k) |
+| 24 | `for(int j=i+1;j<k;j++) a[j]=a[j-1]+1;` (đặt lại phần đuôi) | O(k) |
+
+- Xấu nhất **O(k)** mỗi bước. Trung bình gần như hằng số, vì đa số lần chỉ có phần tử cuối tăng lên.
+- `print(a)` ở dòng 137 tốn **O(k)**.
+
+>**Kết luận:** Thời gian **O(k · C(n, k))**. Bộ nhớ **O(k)**.
+
+---
+
+### 2.1.3. Sinh tập con bằng Gray Code: `graycode`
+
+**Số lần lặp:** vòng `for` ở **dòng 66** chạy **2ⁿ** lần.
+
+**Chi phí mỗi vòng:**
+
+| Dòng | Đoạn code | Chi phí |
+|---|---|---|
+| 67 | `int gray = i^(i>>1);` | O(1) |
+| 69 | `for(int j=n-1; j>=0; j--)` in từng bit | **O(n)**, chi phí chính |
+| 72 đến `verifyGray` (dòng 41–57) | tra mảng `seen` + `__builtin_popcount` | O(1) |
+
+**Bộ nhớ:** `vector<bool> seen(total, false)` ở **dòng 61** tốn **O(2ⁿ)**. Đây là chỗ duy nhất trong 3 thuật toán có bộ nhớ tăng theo hàm mũ, và nó chỉ phục vụ việc kiểm tra, không phục vụ việc sinh mã.
+
+>**Kết luận:** Thời gian **O(n · 2ⁿ)**. Bộ nhớ **O(2ⁿ)** (bỏ phần kiểm tra thì chỉ còn O(1)).
+
+**Ghi chú:** Hàm `legacyNextGray` (dòng 27) không được gọi trong `main`. Nếu dùng nó, vòng `while` ở dòng 31 tốn O(n) mỗi bước.
+
+---
+
+ **Tóm tắt:**
+
+| Thuật toán | Số lần lặp (dòng) | Chi phí mỗi bước (dòng) | Tổng thời gian | Bộ nhớ |
+|---|---|---|---|---|
+| Hoán vị | n! (114) | O(n) xấu nhất (8, 12, 15) | O(n · n!) | O(n) |
+| Tổ hợp chập k | C(n, k) (136) | O(k) xấu nhất (21, 24) | O(k · C(n, k)) | O(k) |
+| Gray Code | 2ⁿ (66) | O(n) do in (69) | O(n · 2ⁿ) | O(2ⁿ) (61) |
+
+
+>**Nhận xét:**
+Cả 3 thuật toán đều phụ thuộc vào kích thước đầu ra (*output-sensitive*): số lần lặp bằng đúng số cấu hình cần sinh (n!, C(n, k), 2ⁿ), nên không thể nhanh hơn được về mặt tiệm cận. Phần nhân thêm n hay k đến từ việc in ra mỗi cấu hình.
+
+## 3. Kiểm thử và kiểm chứng
+
+## 4. Tích hợp và quản lý mã nguồn
+
+## 5. Phân công công việc
+
+## 6. Khó khăn và hướng giải quyết
+
+## 7. Kế hoạch tuần 3
+
+## 8. Khai báo sử dụng AI và nguồn tài liệu tham khảo
+
+### 8.1. Khai báo sử dụng AI và nguồn gốc kiến thức
+
+### 8.2. Tài liệu tham khảo
+
