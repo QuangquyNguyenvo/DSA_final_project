@@ -1,7 +1,9 @@
 #include<bits/stdc++.h>
 #define ll long long
 using namespace std;
+#include "benchmark.h"
 //hiện tại việc đổi màu đang dựa vào các mã ANSI escape, nó phần nào tác động vào terminal khi terminal thực hiện đọc code và visualize
+//nguồn: https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
 
 bool nextPermutation(vector<int>& a){
     int i=a.size()-2;
@@ -91,6 +93,7 @@ int main() {
         cout<<"\033[33m"<<"     1. Sinh hoan vi (Algorithm L)"<<"\033[0m"<<"\n";
         cout<<"\033[33m"<<"     2. Sinh to hop chap k cua n"<<"\033[0m"<<"\n";
         cout<<"\033[33m"<<"     3. Sinh tap con bang Gray Code"<<"\033[0m"<<"\n";
+        cout<<"\033[33m"<<"     4. Benchmark"<<"\033[0m"<<"\n";
         cout<<"\033[33m"<<"     0. Thoat\n ";
         cout<<"\033[36m"<<" -> Lua chon: "<<"\033[0m"<<"\n";
         cout<<"\033[33m"<<"============================================"<<"\033[0m"<<"\n";
@@ -152,6 +155,10 @@ int main() {
             }
             if(graycode(n)) cout<<"\033[36m"<<"Kiem tra Gray Code: DUNG"<<"\033[0m"<<"\n";
             else cout<<"\033[31m"<<"Kiem tra Gray Code: SAI""\033[0m"<<"\n";
+            cout<<"\n";
+        }
+        else if(choice==4){
+            runBenchmark(); //đo thời gian 3 thuật toán, ghi kết quả vào bench_results.csv
             cout<<"\n";
         }
     }

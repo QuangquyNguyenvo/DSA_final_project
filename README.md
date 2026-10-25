@@ -501,9 +501,63 @@ Nội dung liên quan: Các thao tác xử lý bit và ứng dụng trong lập 
 
 ## 1. Tổng quan
 
+Sau hai tuần đầu, chương trình `comb_gen.cpp` đã cài đặt và kiểm chứng đủ ba thuật toán: sinh hoán vị (Algorithm L), sinh tổ hợp chập k của n và sinh tập con bằng Gray Code. Trong tuần 3, nhóm chuyển từ việc cài đặt sang hoàn thiện chương trình và đánh giá thuật toán. Nhóm hoàn thiện giao diện dòng lệnh (CLI), phân tích độ phức tạp của từng thuật toán và kiểm chứng kết quả phân tích bằng số liệu đo thực tế.
+
+Mục tiêu của tuần này:
+- Hoàn thiện CLI: menu rõ ràng, tô màu kết quả, kiểm tra dữ liệu đầu vào cho cả ba thuật toán.
+- Phân tích trường hợp xấu nhất, chi phí khấu hao (amortized) mỗi bước và tổng thời gian sinh của từng thuật toán.
+- Xây dựng benchmark, đo thời gian chạy thực tế và đối chiếu với kết quả phân tích lý thuyết.
+
 ## 2. Công việc thực hiện
 
-### 2.1. Phân tích độ phức tạp
+### 2.1. Thiết kế CLI
+
+Chương trình `comb_gen.cpp` chạy trên terminal với một menu lặp lại liên tục: người dùng chọn chức năng, nhập dữ liệu, xem kết quả, rồi quay lại menu cho tới khi chọn **0. Thoat**.
+
+```
+===========COMBINATION GENERATOR===========
+     1. Sinh hoan vi (Algorithm L)
+     2. Sinh to hop chap k cua n
+     3. Sinh tap con bang Gray Code
+     4. Benchmark
+     0. Thoat
+  -> Lua chon:
+============================================
+```
+
+**Tô màu bằng mã ANSI escape:**
+
+| Mã | Màu | Dùng cho |
+|---|---|---|
+| `\033[33m` | Vàng | Tiêu đề, menu và các đường viền `====` |
+| `\033[36m` | Xanh lơ | Dòng nhắc lựa chọn, tổng số cấu hình, kết quả kiểm tra Gray Code DUNG |
+| `\033[31m` | Đỏ | Kết quả kiểm tra Gray Code SAI |
+| `\033[0m` | | Trả về màu mặc định sau mỗi dòng |
+
+Các dòng `----` ngăn cách phần nhập dữ liệu với phần kết quả cho dễ đọc. Màu chỉ hiển thị đúng trên terminal hỗ trợ ANSI (như Windows Terminal, terminal của VS Code). Terminal cũ không hỗ trợ sẽ in nguyên các mã như `[33m`.
+
+**Nhập dữ liệu và kiểm tra đầu vào:**
+
+| Lựa chọn | Dữ liệu nhập | Điều kiện hợp lệ | Lý do giới hạn |
+|---|---|---|---|
+| 1. Hoán vị | n, rồi lần lượt n phần tử | 0 ≤ n ≤ 10 | n âm có thể gây crash; n lớn in quá nhiều dòng (10! ≈ 3,6 triệu) |
+| 2. Tổ hợp | n, rồi k (chọn k phần tử từ {1, ..., n}) | 0 ≤ k ≤ n ≤ 20 | k > n không có tổ hợp; n lớn in quá nhiều dòng |
+| 3. Gray Code | n | 0 ≤ n ≤ 30 | n âm làm `1 << n` không hợp lệ; n > 30 làm `1 << n` tràn `int` |
+
+- Nhập sai điều kiện thì chương trình báo lỗi (ví dụ `Loi: n phai thoa 0 <= n <= 30`) và quay lại menu.
+- Nhập chữ thay vì số ở menu thì chương trình thoát vòng lặp và kết thúc.
+- Với hoán vị, các phần tử nhập vào được sắp xếp trước, để bắt đầu sinh từ hoán vị nhỏ nhất theo thứ tự từ điển.
+
+**Hiển thị kết quả:**
+
+- Mỗi cấu hình in trên một dòng: hoán vị và tổ hợp dạng `{1, 2, 3}`, Gray Code dạng dãy bit `{ 0 1 1 }`.
+- Cuối mỗi lần chạy in tổng số cấu hình (`Tong so hoan vi`, `Tong so to hop`, `Tong so ma Gray`) để đối chiếu với n!, C(n, k), 2ⁿ.
+- Gray Code in thêm kết quả kiểm tra của `verifyGray()`: `Kiem tra Gray Code: DUNG` (xanh) hoặc `SAI` (đỏ).
+- Lựa chọn **4. Benchmark** chạy phần đo hiệu năng, trình bày ở mục 2.3.
+
+---
+
+### 2.2. Phân tích độ phức tạp
 
 #### Nguyên tắc chung
 
@@ -516,7 +570,7 @@ Chi phí mỗi bước nằm trong các vòng `while` / `for` / `reverse` bên t
 
 ---
 
-### 2.1.1. Sinh hoán vị: `nextPermutation`
+### 2.2.1. Sinh hoán vị: `nextPermutation`
 
 **Số lần lặp:** vòng `do…while` ở **dòng 114–117** chạy **n!** lần (nếu các phần tử khác nhau đôi một).
 
@@ -536,7 +590,7 @@ Chi phí mỗi bước nằm trong các vòng `while` / `for` / `reverse` bên t
 
 ---
 
-### 2.1.2. Sinh tổ hợp chập k của n: `nextCombination`
+### 2.2.2. Sinh tổ hợp chập k của n: `nextCombination`
 
 **Số lần lặp:** vòng `do…while` ở **dòng 136–139** chạy **C(n, k)** lần.
 
@@ -554,7 +608,7 @@ Chi phí mỗi bước nằm trong các vòng `while` / `for` / `reverse` bên t
 
 ---
 
-### 2.1.3. Sinh tập con bằng Gray Code: `graycode`
+### 2.2.3. Sinh tập con bằng Gray Code: `graycode`
 
 **Số lần lặp:** vòng `for` ở **dòng 66** chạy **2ⁿ** lần.
 
@@ -586,15 +640,147 @@ Chi phí mỗi bước nằm trong các vòng `while` / `for` / `reverse` bên t
 >**Nhận xét:**
 Cả 3 thuật toán đều phụ thuộc vào kích thước đầu ra (*output-sensitive*): số lần lặp bằng đúng số cấu hình cần sinh (n!, C(n, k), 2ⁿ), nên không thể nhanh hơn được về mặt tiệm cận. Phần nhân thêm n hay k đến từ việc in ra mỗi cấu hình.
 
-## 3. Kiểm thử và kiểm chứng
+---
+
+### 2.3. Đánh giá hiệu năng (Benchmark)
+
+### 2.3.1. Mục tiêu
+
+Benchmark nhằm kiểm chứng bằng số liệu thực tế các kết luận trong phần phân tích độ phức tạp (`complexity_analysis.md`):
+
+**Tốc độ tăng của tổng thời gian:** thời gian sinh toàn bộ cấu hình phải tăng theo đúng công thức số cấu hình: n! (hoán vị), C(n, k) (tổ hợp), 2ⁿ (Gray Code).
+
+**Chi phí khấu hao (amortized) mỗi bước:** nếu không tính phần in ra, thời gian trung bình để sinh một cấu hình phải gần như không đổi khi n tăng (khấu hao O(1)), dù trường hợp xấu nhất của một bước là O(n) hoặc O(k).
+
+### 2.3.2. Môi trường đo
+
+| Thành phần | Thông số |
+|---|---|
+| CPU | Intel Core i7-11800H (11th Gen), 8 nhân / 16 luồng, xung cơ bản 2.30 GHz |
+| RAM | 8 GB (hệ điều hành nhận 7.7 GB) |
+| Trình biên dịch | g++ 12.1.0 (MinGW-W64 x86_64, posix-seh) |
+| Cờ biên dịch | `g++ -std=c++17 -O2 comb_gen.cpp -o comb_gen` |
+| Đồng hồ đo | `std::chrono::steady_clock` |
+
+
+### 2.3.3. Phương pháp đo
+
+**Tổ chức mã nguồn:** toàn bộ benchmark nằm trong file header `benchmark.h`, được `#include` vào `comb_gen.cpp` và gọi bằng lựa chọn **4. Benchmark** trên menu. Benchmark gọi trực tiếp các hàm `nextPermutation`, `nextCombination`, `verifyGray` của chương trình, nên đo đúng mã nguồn đã nộp chứ không phải một bản sao. Gray Code được đo giống menu 3 (sinh bằng công thức XOR và kiểm tra bằng `verifyGray()`), chỉ bỏ phần in.
+
+**Không tính phần in:** số đo chỉ gồm thời gian sinh cấu hình.
+
+**Kiểm tra phép đo chạy đủ:** mỗi lần chạy đếm số cấu hình sinh được và đối chiếu với n!, C(n, k), 2ⁿ (mọi bộ dữ liệu đều khớp).
+
+**Lặp lại:** mỗi bộ dữ liệu chạy 1 lần khởi động (không ghi nhận), sau đó chạy 5 lần và lấy **trung vị (median)**.
+
+**Đại lượng báo cáo:**
+  - `total_ms`: tổng thời gian sinh toàn bộ cấu hình (median).
+  - `ns/cấu hình`: thời gian trung bình để sinh một cấu hình.
+  - `Tỉ lệ thời gian`: total_ms của dòng này chia cho dòng trước.
+  - `Tỉ lệ công thức`: số cấu hình của dòng này chia cho dòng trước. Hai tỉ lệ gần bằng nhau nghĩa là thời gian tăng đúng theo công thức.
+
+`$$\text{ns/cấu hình} = \frac{T \times 10^6}{N}$$`
+
+với $T$ là tổng thời gian sinh (ms, median) và $N$ là số cấu hình.
+
+- **Xuất dữ liệu:** kết quả ghi ra `bench_results.csv`, biểu đồ vẽ bằng TODO (Python matplotlib / Excel).
+
+### 2.3.4. Bộ dữ liệu thử
+
+| Thuật toán | Đầu vào | Lý do chọn |
+|---|---|---|
+| Hoán vị | n = 8 đến 12, mảng {1, ..., n} | 12! ≈ 4,8 × 10⁸ chạy trong khoảng 1,4 giây; 13! lâu hơn khoảng 13 lần |
+| Tổ hợp | n = 16 đến 30 (bước 2), k = n/2 | k = n/2 cho C(n, k) lớn nhất ứng với mỗi n |
+| Gray Code | n = 16 đến 28 (bước 2) | 2²⁸ ≈ 2,7 × 10⁸ mã; mảng `seen` lúc đó khoảng 32 MB, vẫn vừa RAM |
+
+### 2.3.5. Kết quả
+
+**Bảng 1. Hoán vị (Algorithm L)**
+
+| n | Số cấu hình (n!) | total_ms (median) | ns/cấu hình | Tỉ lệ thời gian | Tỉ lệ công thức |
+|---|---|---|---|---|---|
+| 8 | 40 320 | 0,122 | 3,03 | | |
+| 9 | 362 880 | 1,087 | 2,99 | 8,91 | 9 |
+| 10 | 3 628 800 | 11,13 | 3,07 | 10,24 | 10 |
+| 11 | 39 916 800 | 117,5 | 2,94 | 10,56 | 11 |
+| 12 | 479 001 600 | 1 393 | 2,91 | 11,86 | 12 |
+
+**Bảng 2. Tổ hợp chập k của n (k = n/2)**
+
+| n | k | Số cấu hình C(n, k) | total_ms (median) | ns/cấu hình | Tỉ lệ thời gian | Tỉ lệ công thức |
+|---|---|---|---|---|---|---|
+| 16 | 8 | 12 870 | 0,034 | 2,63 | | |
+| 18 | 9 | 48 620 | 0,130 | 2,68 | 3,85 | 3,78 |
+| 20 | 10 | 184 756 | 0,495 | 2,68 | 3,80 | 3,80 |
+| 22 | 11 | 705 432 | 1,893 | 2,68 | 3,83 | 3,82 |
+| 24 | 12 | 2 704 156 | 7,222 | 2,67 | 3,81 | 3,83 |
+| 26 | 13 | 10 400 600 | 27,37 | 2,63 | 3,79 | 3,85 |
+| 28 | 14 | 40 116 600 | 106,5 | 2,65 | 3,89 | 3,86 |
+| 30 | 15 | 155 117 520 | 416,1 | 2,68 | 3,91 | 3,87 |
+
+**Bảng 3. Gray Code (XOR có `verifyGray()`)**
+
+| n | Số cấu hình (2ⁿ) | total_ms (median) | ns/cấu hình | Tỉ lệ thời gian | Tỉ lệ công thức |
+|---|---|---|---|---|---|
+| 16 | 65 536 | 0,208 | 3,17 | | |
+| 18 | 262 144 | 0,819 | 3,13 | 3,94 | 4 |
+| 20 | 1 048 576 | 3,304 | 3,15 | 4,03 | 4 |
+| 22 | 4 194 304 | 13,23 | 3,16 | 4,01 | 4 |
+| 24 | 16 777 216 | 54,66 | 3,26 | 4,13 | 4 |
+| 26 | 67 108 864 | 224,6 | 3,35 | 4,11 | 4 |
+| 28 | 268 435 456 | 880,0 | 3,28 | 3,92 | 4 |
+
+
+### 2.3.6. Phân tích và nhận xét
+
+**Kỳ vọng theo lý thuyết** (dùng để đối chiếu với số liệu ở 2.3.5):
+
+| Thuật toán | Tổng thời gian (không in) | Tỉ lệ kỳ vọng khi tăng n | ns/cấu hình |
+|---|---|---|---|
+| Hoán vị | Θ(n!) | t(n+1) / t(n) ≈ n + 1 | Gần như không đổi |
+| Tổ hợp | Θ(C(n, k)) khi k ≤ n/2 | t(n+2) / t(n) ≈ C(n+2, k+1) / C(n, k) | Gần như không đổi |
+| Gray Code | Θ(2ⁿ) | t(n+2) / t(n) ≈ 4 | Không đổi, mỗi bước O(1) |
+
+Có in ra thì mỗi bước tốn thêm O(n) hoặc O(k), nên tổng thời gian trở thành:
+
+`$$O(n \cdot n!), \qquad O\big(k \cdot C(n, k)\big), \qquad O(n \cdot 2^n)$$`
+
+**Nhận xét theo số liệu đo:**
+
+1. **Thời gian tăng đúng theo công thức.** Ở cả ba thuật toán, tỉ lệ thời gian lệch tỉ lệ công thức không quá khoảng 4%. Ví dụ hoán vị từ n = 11 lên 12 tăng 11,86 lần (kỳ vọng 12), Gray Code mỗi lần n tăng 2 thì tăng 3,92 đến 4,13 lần (kỳ vọng 4).
+2. **Chi phí mỗi bước là hằng số (khấu hao O(1)).** ns/cấu hình gần như không đổi: hoán vị khoảng 3 ns, tổ hợp khoảng 2,7 ns, Gray Code khoảng 3,2 ns, dù số cấu hình tăng hơn 10 000 lần.
+3. **Gray Code chậm đi một chút khi n ≥ 24** (từ 3,15 lên khoảng 3,3 ns). Nguyên nhân có thể là mảng `seen` của `verifyGray()` (32 MB khi n = 28) vượt dung lượng cache của CPU.
+
 
 ## 4. Tích hợp và quản lý mã nguồn
+
+Công việc tuần 3 được thực hiện trên nhánh `week3`, sau đó tích hợp vào `main` qua Pull Request.
+
+**Mã nguồn CLI:**
+- Hàm `main` với menu tô màu ANSI và kiểm tra đầu vào: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/ae634c2/comb_gen.cpp#L88-L158
+
+**Pull Request:**
+- PR #9 (`week3`, Đào Nghiêm Minh): hoàn thiện giao diện CLI, thêm báo cáo tuần 3 và phần phân tích độ phức tạp: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/9
+
+**Commit:**
+- [`ae634c2`](https://github.com/QuangquyNguyenvo/DSA_final_project/commit/ae634c2): tô màu menu và kết quả bằng mã ANSI, thêm khung viền và đổi lời nhắc nhập dữ liệu cho rõ ràng (Minh).
+- [`3e8d482`](https://github.com/QuangquyNguyenvo/DSA_final_project/commit/3e8d482): thêm báo cáo tuần 3 và phân tích độ phức tạp (Minh).
+- [`6ddda19`](https://github.com/QuangquyNguyenvo/DSA_final_project/commit/6ddda19): merge PR #9, tích hợp tuần 3 vào `main`.
+
+Phần benchmark (`benchmark.h` và lựa chọn **4. Benchmark** trên menu) chưa được tích hợp vào `main`, sẽ được bổ sung trong PR tiếp theo.
+
+Sau tuần 3, chương trình `comb_gen.cpp` có giao diện CLI hoàn chỉnh cho cả ba thuật toán: menu tô màu, kiểm tra dữ liệu đầu vào và in tổng số cấu hình để đối chiếu với công thức.
 
 ## 5. Phân công công việc
 
 ## 6. Khó khăn và hướng giải quyết
 
-## 7. Kế hoạch tuần 3
+## 7. Kế hoạch tuần 4
+
+Tuần 4 nhóm tập trung hoàn thiện các đầu việc còn lại của tuần 3:
+- Vẽ biểu đồ kết quả và hoàn thiện các mục còn lại trong phần đánh giá hiệu năng.
+- Hoàn thiện báo cáo kỹ thuật và Self-Explanation.
+- Chuẩn bị cho phần vấn đáp đề tài.
 
 ## 8. Khai báo sử dụng AI và nguồn tài liệu tham khảo
 
