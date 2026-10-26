@@ -596,6 +596,8 @@ Số lần lặp nằm ở vòng `do while` hoặc `for` trong `main` hay `grayc
 
 >**Kết luận:** Thời gian **O(n · n!)**, bị chi phối bởi việc in. Nếu không in thì là **O(n!)**. Bộ nhớ **O(n)**.
 
+**Mã nguồn:** https://github.com/QuangquyNguyenvo/DSA_final_project/blob/faf925f/comb_gen.cpp#L8-L19
+
 ---
 
 #### 2.2.2. Sinh tổ hợp chập k của n: `nextCombination`
@@ -614,6 +616,8 @@ Số lần lặp nằm ở vòng `do while` hoặc `for` trong `main` hay `grayc
 - `print(a)` ở dòng 140 tốn **O(k)**.
 
 >**Kết luận:** Thời gian **O(k · C(n, k))**. Nếu không in thì là **O(C(n, k))** khi k ≤ n/2. Bộ nhớ **O(k)**.
+
+**Mã nguồn:** https://github.com/QuangquyNguyenvo/DSA_final_project/blob/faf925f/comb_gen.cpp#L20-L28
 
 ---
 
@@ -634,6 +638,10 @@ Số lần lặp nằm ở vòng `do while` hoặc `for` trong `main` hay `grayc
 >**Kết luận:** Thời gian **O(n · 2ⁿ)** do in, phần sinh mã chỉ **O(1)** mỗi bước, không cần khấu hao. Bộ nhớ **O(2ⁿ)** (bỏ phần kiểm tra thì chỉ còn O(1)).
 
 **Ghi chú:** Hàm `legacyNextGray` (dòng 29) không được gọi trong `main`. Nếu dùng nó, vòng `while` ở dòng 33 tốn O(n) mỗi bước trong trường hợp xấu nhất.
+
+**Mã nguồn:**
+- Hàm `graycode`: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/faf925f/comb_gen.cpp#L61-L80
+- Hàm `verifyGray`: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/faf925f/comb_gen.cpp#L43-L59
 
 ---
 
@@ -754,7 +762,7 @@ Vì cách đo hoán vị và tổ hợp không đổi giữa hai phiên bản, B
 | 26 | 67 108 864 | 31,48 | 0,47 | 4,00 | 4 |
 | 28 | 268 435 456 | 125,6 | 0,47 | 3,99 | 4 |
 
-Output khi chọn menu 4 trên máy 2 (Bảng 3 lấy từ lần chạy này) và file `bench_results.csv` được ghi ra:
+Output khi chọn menu 4 trên máy 2 (Bảng 3 lấy từ lần chạy này) và file [`bench_results.csv`](https://github.com/QuangquyNguyenvo/DSA_final_project/blob/dbce015/bench_results.csv) được ghi ra:
 
 ![Output chương trình khi chọn menu 4 Benchmark](img/week_3_benchmark.png)
 
@@ -870,7 +878,11 @@ Công việc tuần 3 được thực hiện trên nhánh `week3` và tích hợ
 
 **Mã nguồn:**
 - Hàm `main` với menu tô màu ANSI và kiểm tra đầu vào: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/faf925f/comb_gen.cpp#L90-L165
+- Sinh hoán vị (`nextPermutation`): https://github.com/QuangquyNguyenvo/DSA_final_project/blob/faf925f/comb_gen.cpp#L8-L19
+- Sinh tổ hợp (`nextCombination`): https://github.com/QuangquyNguyenvo/DSA_final_project/blob/faf925f/comb_gen.cpp#L20-L28
+- Sinh Gray Code (`graycode`) và hàm kiểm tra (`verifyGray`): https://github.com/QuangquyNguyenvo/DSA_final_project/blob/faf925f/comb_gen.cpp#L43-L80
 - File benchmark: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/c703bcb/benchmark.h
+- Kết quả benchmark: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/dbce015/bench_results.csv
 
 **Pull Request:**
 - PR #9 (`week3`, Đào Nghiêm Minh): hoàn thiện giao diện CLI, thêm báo cáo tuần 3 và phần phân tích độ phức tạp: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/9
