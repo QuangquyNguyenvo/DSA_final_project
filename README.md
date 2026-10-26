@@ -866,7 +866,7 @@ Benchmark đếm đúng số cấu hình ở mọi bộ dữ liệu, lớn nhấ
 
 ## 4. Tích hợp và quản lý mã nguồn
 
-Công việc tuần 3 được thực hiện trên nhánh `week3` và tích hợp vào `main` qua PR #9, #10. Các chỉnh sửa sau khi review (viết lại benchmark, sửa lời nhắc menu) được thực hiện trên nhánh `review/week3` và tích hợp vào `main` qua Pull Request.
+Công việc tuần 3 được thực hiện trên nhánh `week3` và tích hợp vào `main` qua PR #9, #10. Các chỉnh sửa sau khi review (viết lại benchmark, sửa lời nhắc menu) được thực hiện trên nhánh `review/week3` và tích hợp vào `main` qua PR #11.
 
 **Mã nguồn:**
 - Hàm `main` với menu tô màu ANSI và kiểm tra đầu vào: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/faf925f/comb_gen.cpp#L90-L165
@@ -875,6 +875,7 @@ Công việc tuần 3 được thực hiện trên nhánh `week3` và tích hợ
 **Pull Request:**
 - PR #9 (`week3`, Đào Nghiêm Minh): hoàn thiện giao diện CLI, thêm báo cáo tuần 3 và phần phân tích độ phức tạp: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/9
 - PR #10 (`week3`, Đào Nghiêm Minh): bổ sung phần tổng quan, thiết kế CLI và benchmark: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/10
+- PR #11 (`review/week3`, Nguyễn Võ Quang Quý): viết lại benchmark, sửa phép đo Gray Code, bổ sung kiểm thử và hoàn thiện báo cáo tuần 3: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/11
 
 **Commit:**
 - [`ae634c2`](https://github.com/QuangquyNguyenvo/DSA_final_project/commit/ae634c2): tô màu menu và kết quả bằng mã ANSI, thêm khung viền và đổi lời nhắc nhập dữ liệu cho rõ ràng (Minh).
@@ -886,6 +887,7 @@ Công việc tuần 3 được thực hiện trên nhánh `week3` và tích hợ
 - [`1a2a6f6`](https://github.com/QuangquyNguyenvo/DSA_final_project/commit/1a2a6f6): viết lại benchmark gọn hơn, sửa phép đo Gray Code bị trình biên dịch tối ưu mất (Quý).
 - [`c703bcb`](https://github.com/QuangquyNguyenvo/DSA_final_project/commit/c703bcb): rút gọn comment nguồn mã màu ANSI (Quý).
 - [`faf925f`](https://github.com/QuangquyNguyenvo/DSA_final_project/commit/faf925f): in lời nhắc lựa chọn sau đường viền menu (Quý).
+- [`dbce015`](https://github.com/QuangquyNguyenvo/DSA_final_project/commit/dbce015): hoàn thiện báo cáo tuần 3, đo lại benchmark Gray Code (Quý).
 
 ## 5. Phân công công việc
 
