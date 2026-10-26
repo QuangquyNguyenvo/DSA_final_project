@@ -918,9 +918,7 @@ Công việc tuần 3 được thực hiện trên nhánh `week3` và tích hợ
 
 Trong tuần 3, nhóm chủ yếu tự nghiên cứu tài liệu, hoàn thiện mã nguồn, chạy kiểm thử và thực hiện benchmark. Phần lớn kiến thức được nhóm tự tìm hiểu từ các nguồn tìm được qua công cụ tìm kiếm Google, được liệt kê ở mục 8.2.
 
-Sau khi đã cài đặt các thuật toán, kiểm thử và làm benchmark, nhóm sử dụng Gemini 3.8 Flash để đối chiếu cách hiểu và rà soát một số nhận định kỹ thuật. Nội dung trao đổi gồm sự khác nhau giữa `#pragma once` và include guard, điều kiện sử dụng `inline`, giới hạn khi so sánh benchmark trên hai máy khác nhau và độ phức tạp của phép sinh Gray Code `i ^ (i >> 1)`.
-
-Trong cuộc trao đổi này, Gemini cung cấp giải thích và gợi ý cách diễn đạt để nhóm làm rõ các điểm còn khúc mắc. Nội dung được điều chỉnh qua trao đổi gồm việc phân biệt bằng chứng thực nghiệm với chứng minh độ phức tạp và xác định chi phí O(1) mỗi mã của phép tính `i ^ (i >> 1)` trên kiểu số nguyên có độ rộng cố định.
+Sau khi hoàn thành cài đặt, kiểm thử và benchmark, nhóm sử dụng `Gemini 3.8 Flash` để rà soát một số kiến thức kỹ thuật về #pragma once, inline, độ phức tạp của Gray Code và phương pháp đánh giá benchmark. AI được sử dụng để giải thích, đối chiếu và điều chỉnh một số nhận định kỹ thuật, không tham gia viết mã nguồn hay thay thế quá trình kiểm chứng của nhóm.
 
 **Minh chứng:** [Cuộc trò chuyện với Gemini](https://share.gemini.google/RBkOQo69pslz).
 
