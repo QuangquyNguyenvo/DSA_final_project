@@ -2,8 +2,8 @@
 #define ll long long
 using namespace std;
 #include "benchmark.h"
-//hiện tại việc đổi màu đang dựa vào các mã ANSI escape, nó phần nào tác động vào terminal khi terminal thực hiện đọc code và visualize
-//nguồn: https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
+// màu chữ dùng mã ANSI escape (vd \033[33m = vàng, \033[0m = về màu mặc định)
+// nguồn: https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
 
 bool nextPermutation(vector<int>& a){
     int i=a.size()-2;
