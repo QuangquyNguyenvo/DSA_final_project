@@ -94,9 +94,9 @@ int main() {
         cout<<"\033[33m"<<"     2. Sinh to hop chap k cua n"<<"\033[0m"<<"\n";
         cout<<"\033[33m"<<"     3. Sinh tap con bang Gray Code"<<"\033[0m"<<"\n";
         cout<<"\033[33m"<<"     4. Benchmark"<<"\033[0m"<<"\n";
-        cout<<"\033[33m"<<"     0. Thoat\n ";
-        cout<<"\033[36m"<<" -> Lua chon: "<<"\033[0m"<<"\n";
+        cout<<"\033[33m"<<"     0. Thoat"<<"\033[0m"<<"\n";
         cout<<"\033[33m"<<"============================================"<<"\033[0m"<<"\n";
+        cout<<"\033[36m"<<"  -> Lua chon: "<<"\033[0m";
         ll choice;
         if(!(cin>>choice)) break; //nhập chữ thay vì số thì dừng while để thoát chương trình
         if(choice==0) break;
