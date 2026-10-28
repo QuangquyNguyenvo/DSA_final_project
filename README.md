@@ -977,3 +977,224 @@ Nội dung liên quan: Đo thời gian chạy của một hàm bằng thư việ
 [https://usaco.guide/bronze/time-comp](https://usaco.guide/bronze/time-comp)
 
 Nội dung liên quan: Ký hiệu Big-O, độ phức tạp của các vòng lặp, độ phức tạp O(2ⁿ) khi duyệt mọi tập con và O(n!) khi duyệt mọi hoán vị.
+
+---
+# BÁO CÁO TIẾN ĐỘ (Tuần 4): 
+
+**Môn học:** Cấu trúc dữ liệu và Giải thuật.
+
+**Mã lớp học phần:** DASA230179_Dot1, HK1 2026-2027.
+
+**Giảng viên hướng dẫn:** Huỳnh Xuân Phụng.
+
+**GitHub Repository:** https://github.com/QuangquyNguyenvo/DSA_final_project
+
+## 1. Tổng quan
+
+Mục tiêu của tuần này:
+- Bổ sung tùy chọn chỉ in một số cấu hình đầu tiên cho cả ba menu.
+- Chạy lại toàn bộ benchmark trên máy 1 với `benchmark.h` mới, cập nhật `bench_results.csv` và trình bày kết quả trong ba bảng mới (Bảng 4, 5, 6), để cả ba thuật toán được đo trên cùng một máy.
+- Vẽ biểu đồ thời gian và ns/cấu hình từ `bench_results.csv`.
+- Hoàn thiện báo cáo kỹ thuật và Self-Explanation cho từng yêu cầu của đề bài.
+- Chuẩn bị cho phần vấn đáp đề tài.
+
+## 2. Công việc thực hiện
+
+### 2.1. Giới hạn số cấu hình được in
+
+Ở tuần 2 và tuần 3, nhóm chống in quá nhiều dòng bằng cách chặn n (mục 2.1 tuần 3). Cách này vẫn để chương trình in rất nhiều dòng ở giới hạn trên: hoán vị n = 10 in khoảng 3,6 triệu dòng, Gray Code n = 30 in hơn 1 tỉ dòng. Người dùng cũng không có cách nào chỉ xem vài cấu hình đầu mà vẫn biết tổng số. Tuần 4, nhóm bổ sung một lời nhắc chung cho cả ba menu, đúng yêu cầu CLI của đề bài.
+
+**Cách hoạt động:**
+
+- Sau khi nhập xong các thông số của từng menu, chương trình hỏi thêm `So cau hinh muon in (0 = tat ca):`.
+- Chỉ in số cấu hình được chọn, sau đó in `...` nếu còn cấu hình chưa in. Nhập `0` thì in tất cả như trước.
+- Thuật toán vẫn sinh hết mọi cấu hình, nên dòng `Tong so ...` vẫn là tổng thật để đối chiếu với n!, C(n, k), 2ⁿ. Với Gray Code, `verifyGray()` vẫn kiểm tra đủ 2ⁿ mã, không chỉ các mã được in.
+- Để tránh nhầm với k của "tổ hợp chập k", nhóm gọi giá trị mới là `limit` (số cấu hình được in).
+
+| Lựa chọn | Dữ liệu nhập (theo thứ tự) | Điều kiện của `limit` |
+|---|---|---|
+| 1. Hoán vị | n, n phần tử, `limit` | `limit` ≥ 0 |
+| 2. Tổ hợp | n, k, `limit` | `limit` ≥ 0 |
+| 3. Gray Code | n, `limit` | `limit` ≥ 0 |
+
+Giới hạn n của từng menu giữ nguyên như tuần 3.
+
+**Thay đổi trong mã nguồn:**
+
+- Thêm hàm `readLimit()`: in lời nhắc, đọc `limit` và trả về -1 nếu nhập số âm hoặc nhập chữ. Khi đó chương trình báo lỗi và quay lại menu, giống cách xử lý các đầu vào sai khác.
+- Hoán vị và tổ hợp: vòng lặp `do ... while` vẫn chạy hết, chỉ gọi `print(a)` khi `limit == 0` hoặc `cnt < limit`.
+- Gray Code: `graycode(n)` đổi thành `graycode(n, limit)`, vì hàm này tự in mã trong vòng lặp. `benchmark.h` không gọi `graycode()` nên không bị ảnh hưởng.
+
+![Output menu 1 khi chỉ in 4 cấu hình đầu tiên](img/week_4_perm_limit.png)
+
+**Điều chỉnh giao diện:**
+
+- *Lời nhắc được rút gọn còn `So cau hinh muon in (0 = tat ca):` (35 ký tự). Bản đầu dài 51 ký tự nên tràn ra ngoài đường viền `----` rộng 44 ký tự.*
+- *Tất cả thông báo lỗi (`Loi: ...`) được tô đỏ bằng `\033[31m`, giống kết quả `Kiem tra Gray Code: SAI`. Bảng màu ở mục 2.1 tuần 3 vì vậy có thêm một trường hợp dùng màu đỏ.*
+
+| Mã | Màu | Dùng cho |
+|---|---|---|
+| `\033[31m` | Đỏ | Kết quả kiểm tra Gray Code SAI và các thông báo lỗi nhập liệu (mới ở tuần 4) |
+
+**Mã nguồn:**
+- Hàm `readLimit`: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/week4/comb_gen.cpp#L94-L103
+- Hàm `graycode` có tham số `limit`: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/week4/comb_gen.cpp#L60-L84
+- Hàm `main`: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/week4/comb_gen.cpp#L105-L190
+
+### 2.2. Đo lại benchmark trên máy 1
+
+Ở tuần 3, Bảng 1 và Bảng 2 đo trên máy 1 bằng bản benchmark đầu (`edbfebe`), còn Bảng 3 đo trên máy 2 bằng bản viết lại (`1a2a6f6`). Vì hai máy khác phiên bản trình biên dịch, nhóm phải so sánh tốc độ giữa ba thuật toán qua một lần chạy riêng trên máy 2 (mục 2.3.6 tuần 3). Tuần 4, nhóm đo lại cả ba thuật toán trong cùng một lần chạy, trên cùng máy 1 và cùng bản `benchmark.h` mới, để ba bảng so sánh trực tiếp được với nhau.
+
+**Môi trường đo:** máy 1, giữ nguyên cấu hình ở mục 2.3.2 tuần 3.
+
+| Thành phần | Máy 1 |
+|---|---|
+| CPU | Intel Core i7-11800H (11th Gen), 8 nhân / 16 luồng, 2.30 GHz |
+| RAM | 8 GB |
+| Trình biên dịch | g++ 12.1.0 (MinGW-W64 x86_64, posix-seh) |
+| Cờ biên dịch | `g++ -std=c++17 -O2 comb_gen.cpp -o comb_gen` |
+| Bản benchmark | `benchmark.h` bản viết lại ([`1a2a6f6`](https://github.com/QuangquyNguyenvo/DSA_final_project/blob/1a2a6f6/benchmark.h)) |
+
+Phương pháp đo (1 lần khởi động, 5 lần đo, lấy median) và bộ dữ liệu thử giữ nguyên như mục 2.3.3 và 2.3.4 tuần 3. Phần giới hạn số cấu hình được in ở mục 2.1 không ảnh hưởng đến benchmark, vì benchmark không in cấu hình.
+
+**Điều kiện chạy:** lần chạy đầu tiên, Gray Code cho số liệu dao động (0,48 đến 0,62 ns mỗi mã, tỉ lệ thời gian có chỗ lên 4,48 trong khi công thức là 4). Mỗi mã Gray chỉ tốn khoảng 0,5 ns, nên rất dễ bị ảnh hưởng bởi các ứng dụng chạy nền và việc CPU thay đổi xung nhịp. Nhóm cắm sạc, tắt các ứng dụng không cần thiết rồi chạy lại 3 lần liên tiếp. Ba lần cho kết quả gần như giống nhau (Gray Code 0,46 đến 0,50 ns mỗi mã). Nhóm lấy trọn bộ số liệu của lần chạy thứ nhất, không ghép các dòng từ nhiều lần chạy.
+
+**Bảng 4. Hoán vị (Algorithm L), máy 1**
+
+| n | Số cấu hình (n!) | total_ms (median) | ns/cấu hình | Tỉ lệ thời gian | Tỉ lệ công thức |
+|---|---|---|---|---|---|
+| 8 | 40 320 | 0,1249 | 3,10 |  |  |
+| 9 | 362 880 | 1,093 | 3,01 | 8,75 | 9 |
+| 10 | 3 628 800 | 10,22 | 2,82 | 9,35 | 10 |
+| 11 | 39 916 800 | 113,1 | 2,83 | 11,07 | 11 |
+| 12 | 479 001 600 | 1 375 | 2,87 | 12,16 | 12 |
+
+**Bảng 5. Tổ hợp chập k của n (k = n/2), máy 1**
+
+| n | k | Số cấu hình C(n, k) | total_ms (median) | ns/cấu hình | Tỉ lệ thời gian | Tỉ lệ công thức |
+|---|---|---|---|---|---|---|
+| 16 | 8 | 12 870 | 0,0332 | 2,58 |  |  |
+| 18 | 9 | 48 620 | 0,125 | 2,57 | 3,77 | 3,78 |
+| 20 | 10 | 184 756 | 0,476 | 2,58 | 3,81 | 3,80 |
+| 22 | 11 | 705 432 | 1,821 | 2,58 | 3,83 | 3,82 |
+| 24 | 12 | 2 704 156 | 7,292 | 2,70 | 4,00 | 3,83 |
+| 26 | 13 | 10 400 600 | 28,37 | 2,73 | 3,89 | 3,85 |
+| 28 | 14 | 40 116 600 | 104,7 | 2,61 | 3,69 | 3,86 |
+| 30 | 15 | 155 117 520 | 414,1 | 2,67 | 3,95 | 3,87 |
+
+**Bảng 6. Gray Code (chỉ sinh mã, không kiểm tra), máy 1**
+
+| n | Số cấu hình (2ⁿ) | total_ms (median) | ns/cấu hình | Tỉ lệ thời gian | Tỉ lệ công thức |
+|---|---|---|---|---|---|
+| 16 | 65 536 | 0,0309 | 0,47 |  |  |
+| 18 | 262 144 | 0,1207 | 0,46 | 3,91 | 4 |
+| 20 | 1 048 576 | 0,4852 | 0,46 | 4,02 | 4 |
+| 22 | 4 194 304 | 1,934 | 0,46 | 3,98 | 4 |
+| 24 | 16 777 216 | 7,75 | 0,46 | 4,01 | 4 |
+| 26 | 67 108 864 | 32,49 | 0,48 | 4,19 | 4 |
+| 28 | 268 435 456 | 128 | 0,48 | 3,94 | 4 |
+
+Kết quả được ghi vào file [`bench_results.csv`](https://github.com/QuangquyNguyenvo/DSA_final_project/blob/week4/bench_results.csv).
+
+**Nhận xét:**
+
+1. **Kết quả khớp với tuần 3:** hoán vị khoảng 2,8 đến 3,1 ns mỗi cấu hình và tổ hợp khoảng 2,6 đến 2,7 ns, gần như trùng với Bảng 1 và Bảng 2. Gray Code khoảng 0,46 đến 0,48 ns, gần với 0,45 đến 0,47 ns ở Bảng 3 trên máy 2. Như vậy kết quả tuần 3 không phụ thuộc vào việc đo trên máy nào.
+2. **Thời gian vẫn tăng đúng theo công thức:** cột tỉ lệ thời gian gần bằng cột tỉ lệ công thức ở cả ba bảng. Ví dụ hoán vị từ n = 11 lên 12 tăng 12,16 lần (công thức 12), Gray Code mỗi lần n tăng 2 thì thời gian tăng 3,91 đến 4,19 lần (công thức 4).
+3. **Gray Code nhanh hơn khoảng 6 lần:** giờ ba bảng cùng một lần chạy nên có thể so sánh trực tiếp: Gray Code khoảng 0,47 ns mỗi cấu hình, hoán vị và tổ hợp khoảng 2,6 đến 3 ns. Kết quả này giống kết luận ở mục 2.3.6 tuần 3.
+
+### 2.3. Biểu đồ kết quả
+
+**Nguồn dữ liệu:** các biểu đồ được vẽ từ file [`bench_results.csv`](https://github.com/QuangquyNguyenvo/DSA_final_project/blob/week4/bench_results.csv) ở mục 2.2, tức cùng số liệu với Bảng 4, 5, 6. Mỗi điểm trên biểu đồ là median của 5 lần đo (cột `median_ms`).
+
+<details>
+<summary>Nội dung file <code>bench_results.csv</code></summary>
+
+```csv
+algo,n,k,formula,median_ms,ns_per_item,time_ratio,formula_ratio
+permutation,8,0,40320,0.1249,3.098,,
+permutation,9,0,362880,1.093,3.012,8.752,9
+permutation,10,0,3628800,10.22,2.816,9.349,10
+permutation,11,0,39916800,113.1,2.834,11.07,11
+permutation,12,0,479001600,1375,2.87,12.16,12
+combination,16,8,12870,0.0332,2.58,,
+combination,18,9,48620,0.125,2.571,3.765,3.778
+combination,20,10,184756,0.476,2.576,3.808,3.8
+combination,22,11,705432,1.821,2.582,3.826,3.818
+combination,24,12,2704156,7.292,2.697,4.004,3.833
+combination,26,13,10400600,28.37,2.727,3.89,3.846
+combination,28,14,40116600,104.7,2.61,3.691,3.857
+combination,30,15,155117520,414.1,2.669,3.954,3.867
+gray,16,0,65536,0.0309,0.4715,,
+gray,18,0,262144,0.1207,0.4604,3.906,4
+gray,20,0,1048576,0.4852,0.4627,4.02,4
+gray,22,0,4194304,1.934,0.461,3.985,4
+gray,24,0,16777216,7.75,0.462,4.008,4
+gray,26,0,67108864,32.49,0.4841,4.191,4
+gray,28,0,268435456,128,0.4767,3.939,4
+```
+
+</details>
+
+Nhóm nhập `bench_results.csv` vào Google Sheets rồi vẽ biểu đồ đường (Line chart):
+
+- Biểu đồ 1, 2, 3 vẽ thời gian sinh toàn bộ cấu hình (`median_ms`) theo n, mỗi thuật toán một biểu đồ riêng, vì ba thuật toán được đo với các khoảng n khác nhau (mục 2.3.4 tuần 3). Trục dọc dùng thang log, vì thời gian tăng rất nhanh: hoán vị đi từ 0,12 ms lên 1 375 ms chỉ trong 4 bước tăng n. Trên thang log, thời gian tăng theo cấp số nhân sẽ hiện thành một đường gần như thẳng.
+- Biểu đồ 4 vẽ thời gian sinh một cấu hình (`ns_per_item`) của cả ba thuật toán trên cùng một hình, để so sánh trực tiếp tốc độ. Trục dọc dùng thang thường, bắt đầu từ 0. Biểu đồ này được vẽ từ file [`bench_ns_per_item.csv`](https://github.com/QuangquyNguyenvo/DSA_final_project/blob/week4/bench_ns_per_item.csv). File này chỉ sắp xếp lại cột `ns_per_item` của `bench_results.csv` thành mỗi thuật toán một cột để vẽ chung một hình, không có số liệu đo mới.
+
+**Biểu đồ 1. Hoán vị (Algorithm L): thời gian sinh theo n**
+
+![Biểu đồ thời gian sinh hoán vị theo n](img/week_4_chart_perm_time.png)
+
+**Biểu đồ 2. Tổ hợp chập k của n (k = n/2): thời gian sinh theo n**
+
+![Biểu đồ thời gian sinh tổ hợp theo n](img/week_4_chart_comb_time.png)
+
+**Biểu đồ 3. Gray Code: thời gian sinh theo n**
+
+![Biểu đồ thời gian sinh Gray Code theo n](img/week_4_chart_gray_time.png)
+
+**Biểu đồ 4. Thời gian sinh một cấu hình theo n**
+
+![Biểu đồ thời gian sinh một cấu hình của ba thuật toán theo n](img/week_4_chart_ns.png)
+
+**Nhận xét:**
+
+1. **Biểu đồ 1, 2, 3 đều gần như thẳng trên thang log:** thời gian tăng theo cấp số nhân, đúng với tổng số cấu hình n!, C(n, k) và 2ⁿ. Kết quả này khớp với cột tỉ lệ thời gian ở Bảng 4, 5, 6.
+2. **Đường hoán vị hơi cong lên:** mỗi lần n tăng 1, số hoán vị tăng n + 1 lần (9, 10, 11, 12 lần), tức hệ số tăng lớn dần, nên đường dốc dần lên. Đây là điểm khác giữa tăng theo giai thừa và tăng theo hàm mũ.
+3. **Đường tổ hợp và đường Gray Code thẳng đều:** mỗi lần n tăng 2, C(n, n/2) tăng khoảng 3,8 lần và 2ⁿ tăng đúng 4 lần. Hệ số này gần như không đổi trong khoảng đo nên độ dốc đều.
+4. **Biểu đồ 4 có ba đường gần như nằm ngang:** thời gian sinh một cấu hình gần như không đổi khi n tăng (hoán vị khoảng 2,8 đến 3,1 ns, tổ hợp khoảng 2,6 đến 2,7 ns, Gray Code khoảng 0,47 ns). Điều này khớp với phân tích O(1) khấu hao ở mục 2.2 tuần 3. Đường hoán vị ở n = 8, 9 cao hơn một chút, vì tổng thời gian khi đó chỉ khoảng 0,1 đến 1 ms nên chi phí cố định (gọi hàm, khởi tạo mảng) chiếm tỉ lệ lớn hơn.
+5. **Gray Code nhanh hơn khoảng 6 lần:** đường Gray Code nằm thấp hơn hẳn hai đường còn lại, vì mỗi bước chỉ có một phép XOR và một phép dịch bit.
+6. **Biểu đồ 2 và Biểu đồ 3 có độ lớn gần giống nhau:** với cùng n, tổng thời gian của tổ hợp và Gray Code gần bằng nhau (ví dụ n = 20: 0,476 ms và 0,485 ms). Đây là trùng hợp: Gray Code có số cấu hình nhiều hơn khoảng 5,7 đến 6,7 lần, nhưng mỗi cấu hình lại nhanh hơn khoảng 5,5 đến 5,8 lần, nên tổng thời gian xấp xỉ nhau. Muốn so sánh tốc độ giữa các thuật toán thì dùng Biểu đồ 4.
+
+### 2.4. Báo cáo kỹ thuật và Self-Explanation
+
+## 3. Kiểm thử và kiểm chứng
+
+### 3.1. Các trường hợp kiểm thử
+
+## 4. Tích hợp và quản lý mã nguồn
+
+Công việc tuần 4 được thực hiện trên nhánh `week4` và tích hợp vào `main` qua PR #.
+
+**Mã nguồn:**
+
+**Pull Request:**
+
+**Commit:**
+
+## 5. Phân công công việc
+
+| Thành viên | MSSV | Công việc tuần 4 |
+|---|---|---|
+| Đào Nghiêm Minh | 25110042 | |
+| Nguyễn Võ Quang Quý | 25110055 | |
+| Cả nhóm | | |
+
+## 6. Khó khăn và hướng giải quyết
+
+## 7. Kế hoạch tiếp theo
+
+## 8. Khai báo sử dụng AI và nguồn tài liệu tham khảo
+
+### 8.1. Khai báo sử dụng AI và nguồn gốc kiến thức
+
+### 8.2. Tài liệu tham khảo
