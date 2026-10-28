@@ -58,7 +58,8 @@ bool verifyGray(int current, int previous, vector<bool>& seen){
     return true;
 }
 // Gray Code: sinh, in và đưa từng mã qua verifyGray() để kiểm tra
-bool graycode(int n){
+// limit = số mã được in ra màn hình (0 = in tất cả), vẫn sinh và kiểm tra đủ 2^n mã
+bool graycode(int n, ll limit){
     int total = 1<<n; //2^n
     vector<bool> seen(total, false); //seen[x]=true nếu mã x đã xuất hiện
     int previous = -1; // -1 = chưa có mã trước nó
@@ -67,14 +68,17 @@ bool graycode(int n){
 
     for(int i=0; i<total;i++) {
         int gray= i^(i>>1);
-        cout<<"{ ";
-        for(int j=n-1; j>=0;j--) cout<<((gray>>j)&1)<<" ";
-        cout<<"}\n";
+        if(limit==0 || cnt<limit){ //chỉ in limit mã đầu tiên
+            cout<<"{ ";
+            for(int j=n-1; j>=0;j--) cout<<((gray>>j)&1)<<" ";
+            cout<<"}\n";
+        }
 
         if(!verifyGray(gray, previous, seen)) ok = false;
         previous = gray;
         cnt++;
     }
+    if(limit>0 && cnt>limit) cout<<"...\n"; //báo hiệu còn mã chưa in
     cout<<"\033[36m"<<"Tong so ma Gray: "<<cnt<<"\033[0m"<<'\n';
     return ok && cnt==total; //4. tổng số mã đã sinh đúng bằng 2^n
 }
@@ -85,6 +89,17 @@ void print(const vector<int>& a){
         cout<<a[i];
     }
     cout<<"}\n";
+}
+
+// hỏi số cấu hình đầu tiên cần in, trả về -1 nếu nhập sai
+ll readLimit(){
+    ll limit;
+    cout<<"So cau hinh muon in (0 = tat ca): ";
+    if(!(cin>>limit) || limit<0){
+        cout<<"\033[31m"<<"Loi: so cau hinh can in phai >= 0"<<"\033[0m"<<"\n";
+        return -1;
+    }
+    return limit;
 }
 
 int main() {
@@ -106,18 +121,21 @@ int main() {
             //chặn n âm (có thể gây crash) và n quá lớn (sẽ in quá nhiều dòng)
             cout<<"--------------------------------------------\n";
             if(n<0||n>10) {
-                cout<<"Loi: n phai thoa 0 <= n <= 10\n";
+                cout<<"\033[31m"<<"Loi: n phai thoa 0 <= n <= 10"<<"\033[0m"<<"\n";
                 continue;
             }
             vector<int> a(n);
             for(int i=0;i<n;i++) cout<<"Phan tu ["<<i<<"] = ", cin>>a[i]; //nhập phần tử
+            ll limit=readLimit();
+            if(limit<0) continue;
             sort(a.begin(),a.end()); //sắp xếp về hoán vị đầu tiên
             ll cnt=0;//đếm lượt hoán vị
             cout<<"--------------------------------------------\n";
             do{
-                print(a);
+                if(limit==0 || cnt<limit) print(a); //chỉ in limit hoán vị đầu tiên, vẫn đếm đủ
                 cnt++;
             } while(nextPermutation(a)); //tìm hoán vị tiếp theo, false là hết
+            if(limit>0 && cnt>limit) cout<<"...\n";
             cout<<"\033[36m"<<"Tong so hoan vi: "<<cnt<<"\033[0m"<<'\n'; //để đối chiếu với n!
             cout<<"\n";
         }
@@ -129,17 +147,21 @@ int main() {
             cout<<"--------------------------------------------\n";
             //chặn k > n, số âm và n quá lớn
             if(n<0||n>20 || k<0 || k>n) {
-                cout<<"Loi: can 0 <= k <= n <= 20\n";
+                cout<<"\033[31m"<<"Loi: can 0 <= k <= n <= 20"<<"\033[0m"<<"\n";
                 continue;
             }
+            ll limit=readLimit();
+            if(limit<0) continue;
+            cout<<"--------------------------------------------\n";
             vector<int> a(k);
             //tổ hợp đầu tiên {1,2,...,k}
             for(int i=0; i<k; i++) a[i]=i+1;
             ll cnt=0; //đếm lượt tạo tổ hợp
             do{
-                print(a);
+                if(limit==0 || cnt<limit) print(a); //chỉ in limit tổ hợp đầu tiên, vẫn đếm đủ
                 cnt++;
             } while(nextCombination(a,n)); //lặp đến khi nextCombination trả false (hết tổ hợp)
+            if(limit>0 && cnt>limit) cout<<"...\n";
             cout<<"\033[36m"<<"Tong so to hop: "<<cnt<<"\033[0m"<<'\n'; //để đối chiếu với C(n,k)
             cout<<"\n";
 
@@ -150,10 +172,13 @@ int main() {
             //chặn n âm (1<<n không hợp lệ) và n > 30 (1<<n tràn int)
             cout<<"--------------------------------------------\n";
             if(n<0||n>30) {
-                cout<<"Loi: n phai thoa 0 <= n <= 30\n";
+                cout<<"\033[31m"<<"Loi: n phai thoa 0 <= n <= 30"<<"\033[0m"<<"\n";
                 continue;
             }
-            if(graycode(n)) cout<<"\033[36m"<<"Kiem tra Gray Code: DUNG"<<"\033[0m"<<"\n";
+            ll limit=readLimit();
+            if(limit<0) continue;
+            cout<<"--------------------------------------------\n";
+            if(graycode(n, limit)) cout<<"\033[36m"<<"Kiem tra Gray Code: DUNG"<<"\033[0m"<<"\n";
             else cout<<"\033[31m"<<"Kiem tra Gray Code: SAI""\033[0m"<<"\n";
             cout<<"\n";
         }
