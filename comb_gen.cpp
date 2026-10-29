@@ -96,6 +96,8 @@ ll readLimit(){
     ll limit;
     cout<<"So cau hinh muon in (0 = tat ca): ";
     if(!(cin>>limit) || limit<0){
+        cin.clear(); //nhập chữ làm cin bị lỗi, xóa trạng thái lỗi để quay lại menu được
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); //bỏ phần còn lại của dòng vừa nhập
         cout<<"\033[31m"<<"Loi: so cau hinh can in phai >= 0"<<"\033[0m"<<"\n";
         return -1;
     }
