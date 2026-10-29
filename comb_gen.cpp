@@ -26,18 +26,6 @@ bool nextCombination(vector<int>& a, int n){
     for(int j=i+1;j<k;j++) a[j]=a[j-1]+1; //đặt phần sau về nhỏ nhất (tăng dần liên tiếp)
     return true;
 }
-bool legacyNextGray(vector<int>& a, int& tmp){
-    tmp ^= 1; //lật cộng thêm 1 hoặc chuyển đổi kế tiếp
-    int j = 0;
-    if(tmp == 0){
-        while(j < (int)a.size() && a[j] != 1){
-            ++j; //tăng lên tìm 1 gần nhất
-        } ++j; //số ngay sau 1
-    }
-    if(j >= (int)a.size()) return false; //đã hết
-    a[j] ^= 1; //lật tại 0 hoặc sau j đã tìm thấy 1
-    return true; //tìm tiếp
-}
 // Kiểm tra một mã Gray vừa được sinh ra.
 // Hàm nhận đúng giá trị mà graycode() đã in, không tự sinh lại mã bằng công thức.
 bool verifyGray(int current, int previous, vector<bool>& seen){
@@ -96,6 +84,8 @@ ll readLimit(){
     ll limit;
     cout<<"So cau hinh muon in (0 = tat ca): ";
     if(!(cin>>limit) || limit<0){
+        cin.clear(); //nhập chữ làm cin bị lỗi, xóa trạng thái lỗi để quay lại menu được
+        cin.ignore(1000, '\n'); //bỏ phần chữ còn lại trên dòng vừa nhập (tối đa 1000 ký tự)
         cout<<"\033[31m"<<"Loi: so cau hinh can in phai >= 0"<<"\033[0m"<<"\n";
         return -1;
     }
@@ -103,6 +93,7 @@ ll readLimit(){
 }
 
 int main() {
+    ios::sync_with_stdio(false); //tách cin/cout khỏi printf/scanf để in nhanh hơn (chương trình chỉ dùng cin/cout)
     while(true){
         cout<<"\033[33m"<<"===========COMBINATION GENERATOR==========="<<"\033[0m"<<"\n";
         cout<<"\033[33m"<<"     1. Sinh hoan vi (Algorithm L)"<<"\033[0m"<<"\n";
@@ -168,7 +159,7 @@ int main() {
         }
         else if(choice==3){
             cout<<"\033[33m"<<"============================================"<<"\033[0m"<<"\n";
-            int n; cout<<"Kich thuoc cua cac tap con Greycode: "; cin>>n;
+            int n; cout<<"Kich thuoc cua cac tap con Gray Code: "; cin>>n;
             //chặn n âm (1<<n không hợp lệ) và n > 30 (1<<n tràn int)
             cout<<"--------------------------------------------\n";
             if(n<0||n>30) {
@@ -179,11 +170,11 @@ int main() {
             if(limit<0) continue;
             cout<<"--------------------------------------------\n";
             if(graycode(n, limit)) cout<<"\033[36m"<<"Kiem tra Gray Code: DUNG"<<"\033[0m"<<"\n";
-            else cout<<"\033[31m"<<"Kiem tra Gray Code: SAI""\033[0m"<<"\n";
+            else cout<<"\033[31m"<<"Kiem tra Gray Code: SAI"<<"\033[0m"<<"\n";
             cout<<"\n";
         }
         else if(choice==4){
-            runBenchmark(); //đo thời gian 3 thuật toán, ghi kết quả vào bench_results.csv
+            runBenchmark(); //đo thời gian 3 thuật toán, ghi kết quả vào results/bench_results.csv
             cout<<"\n";
         }
     }
