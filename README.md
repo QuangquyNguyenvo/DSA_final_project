@@ -1239,4 +1239,26 @@ Tuần 4 là tuần cuối, nên nhóm tổng hợp lại từng yêu cầu củ
 
 ### 8.1. Khai báo sử dụng AI và nguồn gốc kiến thức
 
+Trong tuần 4, nhóm chủ yếu tối ưu chương trình và hoàn thiện các phần còn thiếu từ những tuần trước, thay vì nghiên cứu thêm thuật toán mới. Các công việc được thực hiện dựa trên kiến thức đã tìm hiểu và mã nguồn đã xây dựng, nên nhóm không sử dụng công cụ AI để nghiên cứu, viết hoặc sửa mã nguồn trong tuần này.
+
+Nhóm chỉ sử dụng công cụ tìm kiếm Google để tra cứu cách dùng một số hàm và thiết lập nhập xuất trong C++, cụ thể là `cin.clear()`, `cin.ignore()` để xử lý dữ liệu nhập sai và `ios::sync_with_stdio(false)` để tăng tốc nhập xuất. Các tài liệu tham khảo được liệt kê tại mục 8.2.
+
 ### 8.2. Tài liệu tham khảo
+
+**[1] GeeksforGeeks: How to Handle Wrong Data Type Input in C++?**
+
+[https://www.geeksforgeeks.org/cpp/how-to-handle-wrong-data-type-input-in-cpp/](https://www.geeksforgeeks.org/cpp/how-to-handle-wrong-data-type-input-in-cpp/)
+
+Nội dung liên quan: Xử lý khi người dùng nhập sai kiểu dữ liệu, dùng `cin.clear()` để xóa trạng thái lỗi của `cin` và `cin.ignore()` để bỏ phần nhập sai còn lại.
+
+**[2] GeeksforGeeks: Fast I/O for Competitive Programming**
+
+[https://www.geeksforgeeks.org/dsa/fast-io-for-competitive-programming/](https://www.geeksforgeeks.org/dsa/fast-io-for-competitive-programming/)
+
+Nội dung liên quan: Tăng tốc nhập xuất bằng `ios_base::sync_with_stdio(false)`, tắt đồng bộ giữa luồng nhập xuất của C++ và C.
+
+**[3] Viblo: Các kĩ năng thi cử 10.1: Kĩ thuật tối ưu tốc độ chương trình C++**
+
+[https://viblo.asia/p/cac-ki-nang-thi-cu-101-ki-thuat-toi-uu-toc-do-chuong-trinh-c-Yym40njjL91](https://viblo.asia/p/cac-ki-nang-thi-cu-101-ki-thuat-toi-uu-toc-do-chuong-trinh-c-Yym40njjL91)
+
+Nội dung liên quan: Giải thích vì sao tắt đồng bộ giữa `cin`, `cout` với luồng chuẩn của C giúp chương trình nhập xuất nhanh hơn.
