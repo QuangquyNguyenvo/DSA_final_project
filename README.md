@@ -1011,8 +1011,9 @@ Tuần 3 chỉ chặn n để tránh in quá nhiều dòng, nhưng ở giới h�
 **Cách hoạt động:**
 
 - Nhập xong thông số, chương trình hỏi thêm `So cau hinh muon in (0 = tat ca):`.
-- Chương trình in đúng số cấu hình đó, phần còn lại được thay bằng `...`. Nhập `0` thì in hết như trước.
+- Chương trình in tối đa `limit` cấu hình đầu tiên, nếu vẫn còn cấu hình chưa in thì in thêm `...`. Nhập `0` thì in hết như trước.
 - Thuật toán vẫn sinh đủ mọi cấu hình, nên `Tong so ...` vẫn là tổng thật và `verifyGray()` vẫn kiểm tra đủ 2ⁿ mã.
+- Vì vậy giới hạn in chỉ làm output ngắn lại, thời gian chạy vẫn tăng theo tổng số cấu hình.
 - Trong code, giá trị này tên là `limit` để không nhầm với k trong "tổ hợp chập k".
 
 | Lựa chọn | Dữ liệu nhập (theo thứ tự) | Điều kiện của `limit` |
@@ -1094,13 +1095,13 @@ Cách đo và bộ dữ liệu giống mục 2.3.3 và 2.3.4 tuần 3 (1 lần k
 | 26 | 67 108 864 | 32,49 | 0,48 | 4,19 | 4 |
 | 28 | 268 435 456 | 128 | 0,48 | 3,94 | 4 |
 
-Toàn bộ kết quả được lưu trong file [`bench_results.csv`](https://github.com/QuangquyNguyenvo/DSA_final_project/blob/07548d7/bench_results.csv).
+Toàn bộ kết quả được lưu trong file [`bench_results.csv`](https://github.com/QuangquyNguyenvo/DSA_final_project/blob/07548d7/bench_results.csv). Ở bản hiện tại, file này và `bench_ns_per_item.csv` đã được chuyển vào thư mục [`results/`](results/).
 
 **Nhận xét:**
 
 1. **Kết quả khớp với tuần 3:** hoán vị khoảng 2,8 đến 3,1 ns mỗi cấu hình, tổ hợp 2,6 đến 2,7 ns, Gray Code 0,46 đến 0,48 ns, gần như trùng với Bảng 1, 2, 3.
 2. **Thời gian tăng đúng theo công thức:** cột tỉ lệ thời gian luôn gần cột tỉ lệ công thức, ví dụ hoán vị từ n = 11 lên 12 chậm đi 12,16 lần (công thức là 12).
-3. **Gray Code nhanh hơn khoảng 6 lần:** mỗi mã Gray mất khoảng 0,47 ns, trong khi mỗi hoán vị hoặc tổ hợp mất 2,6 đến 3,1 ns.
+3. **Mỗi mã Gray nhanh hơn khoảng 6 lần:** trong benchmark, mỗi mã Gray mất khoảng 0,47 ns, còn mỗi hoán vị hoặc tổ hợp mất 2,6 đến 3,1 ns. Benchmark Gray Code không gọi `verifyGray()` nên con số này không phản ánh trực tiếp tốc độ của menu 3.
 
 ### 2.3. Biểu đồ kết quả
 
@@ -1127,7 +1128,7 @@ Các biểu đồ được vẽ bằng Google Sheets từ file [`bench_results.c
 
 **Nhận xét:**
 
-1. **Biểu đồ 1, 2, 3 gần như thẳng trên thang log:** thời gian tăng theo cấp số nhân, đúng với n!, C(n, k) và 2ⁿ. Riêng đường hoán vị hơi cong lên, vì mỗi lần n tăng 1 thì số hoán vị nhân thêm n + 1, hệ số này lớn dần.
+1. **Biểu đồ 1, 2, 3 gần như thẳng trên thang log:** thời gian tăng đúng theo số cấu hình. Gray Code tăng theo 2ⁿ, tổ hợp với k = n/2 tăng chậm hơn 2ⁿ một chút. Riêng đường hoán vị hơi cong lên, vì mỗi lần n tăng 1 thì số hoán vị nhân thêm n + 1, hệ số này lớn dần.
 2. **Biểu đồ 4 gần như nằm ngang:** thời gian sinh một cấu hình gần như không đổi khi n tăng, đúng với O(1) khấu hao (mục 2.2 tuần 3).
 3. **Biểu đồ 2 và 3 giống nhau chỉ là trùng hợp:** Gray Code nhiều cấu hình hơn khoảng 5 đến 7 lần nhưng mỗi cấu hình nhanh hơn khoảng 5,5 lần, nên tổng thời gian xấp xỉ nhau.
 
@@ -1146,7 +1147,7 @@ Nhóm đọc lại `comb_gen.cpp` và sửa thêm vài chỗ nhỏ:
 | Trước khi sửa (`5d553d1`) | 11,98 s | 11,54 s |
 | Sau khi sửa (`997cfa2`) | 5,71 s | 5,90 s |
 
-Thời gian in giảm còn khoảng một nửa, còn output của hai bản giống hệt nhau (kiểm tra bằng lệnh `cmp`). Benchmark ở mục 2.2 không in nên không bị ảnh hưởng.
+Thời gian in giảm còn khoảng một nửa, còn output của hai bản giống hệt nhau (kiểm tra bằng lệnh `cmp`). Mỗi bản chỉ chạy 2 lần nên số liệu này dùng để minh họa, chưa đủ để kết luận cho mọi máy. Benchmark ở mục 2.2 không in nên không bị ảnh hưởng.
 
 **Mã nguồn:** commit dọn mã nguồn: https://github.com/QuangquyNguyenvo/DSA_final_project/commit/997cfa2
 
@@ -1215,7 +1216,7 @@ Phần giới hạn in, đo benchmark và vẽ biểu đồ được làm trên 
 
 ## 6. Khó khăn và hướng giải quyết
 
-- **Nhập chữ ở lời nhắc số cấu hình làm chương trình thoát (TC36):** khi nhập chữ thay vì số, `cin` bị lỗi và phần chữ vẫn nằm lại trong luồng nhập, nên lần đọc lựa chọn menu tiếp theo cũng lỗi và chương trình thoát. Nhóm thêm `cin.clear()` để xóa lỗi và thử `cin.ignore()` để bỏ phần chữ, nhưng chương trình vẫn thoát, vì `cin.ignore()` không có tham số chỉ bỏ 1 ký tự: nhập `abc` thì vẫn còn sót `bc`. Nhóm đổi thành `cin.ignore(1000, '\n')` để bỏ tối đa 1000 ký tự cho tới hết dòng, tức bỏ cả dòng vừa nhập sai.
+- **Nhập chữ ở lời nhắc số cấu hình làm chương trình thoát (TC36):** khi nhập chữ thay vì số, `cin` bị lỗi và phần chữ vẫn nằm lại trong luồng nhập, nên lần đọc lựa chọn menu tiếp theo cũng lỗi và chương trình thoát. Nhóm thêm `cin.clear()` để xóa lỗi và thử `cin.ignore()` để bỏ phần chữ, nhưng chương trình vẫn thoát, vì `cin.ignore()` không có tham số chỉ bỏ 1 ký tự: nhập `abc` thì vẫn còn sót `bc`. Nhóm đổi thành `cin.ignore(1000, '\n')` để bỏ phần còn lại của dòng vừa nhập sai, tối đa 1000 ký tự. Với cách nhập bình thường thì như vậy là đủ.
 - **Số liệu Gray Code dao động ở lần đo đầu:** mỗi mã chỉ mất khoảng 0,5 ns nên số liệu dễ bị ảnh hưởng bởi các ứng dụng chạy nền. Ngoài ra, laptop chạy pin có thể tự hạ xung nhịp CPU để tiết kiệm điện. Nhóm đo lại khi máy đang cắm sạc và đã tắt bớt ứng dụng, chạy 3 lần liên tiếp thì cả ba lần đều cho kết quả gần như nhau.
 
 ## 7. Tổng kết: đối chiếu yêu cầu đề bài
@@ -1229,7 +1230,7 @@ Tuần 4 là tuần cuối, nên nhóm tổng hợp lại từng yêu cầu củ
 | 3. Sinh tập con bằng Gray Code | Mã thứ i là `i ^ (i >> 1)`. Bit thứ j bằng 1 nghĩa là phần tử j có trong tập con. | Tuần 2 mục 2.3 |
 | 4. Với n ≥ 10, số cấu hình khớp n!, C(n, k), 2ⁿ | Chương trình đếm mọi cấu hình đã sinh và in dòng `Tong so ...` để đối chiếu với công thức.<br>Benchmark đếm đúng tới 12!, C(30, 15) và 2²⁸. | Tuần 2 mục 3.4<br>Tuần 3 mục 3.3 |
 | 5. Vì sao hai tập con Gray Code liên tiếp chỉ khác nhau đúng một phần tử | `i ^ (i+1)` là một dãy bit 1 liên tiếp ở cuối. XOR dãy đó với chính nó dịch phải 1 bit thì chỉ còn đúng một bit 1.<br>`verifyGray()` kiểm tra lại điều này bằng `__builtin_popcount(diff) == 1`. | Tuần 2 mục 3.3 |
-| Độ phức tạp: thời gian sinh mỗi cấu hình và tổng thời gian | - Sinh mỗi cấu hình: O(1) khấu hao, riêng Gray Code là O(1) mỗi bước.<br>- Tổng thời gian khi in: O(n · n!), O(k · C(n, k)) và O(n · 2ⁿ).<br>- Đo thực tế: khoảng 2,6 đến 3,1 ns mỗi hoán vị hoặc tổ hợp, 0,47 ns mỗi mã Gray. | Tuần 3 mục 2.2, 2.3<br>Tuần 4 mục 2.2, 2.3 |
+| Độ phức tạp: thời gian sinh mỗi cấu hình và tổng thời gian | - Sinh mỗi cấu hình: hoán vị các phần tử khác nhau là O(1) khấu hao. Tổ hợp là O(k) trong trường hợp xấu nhất, O(1) khấu hao khi k ≤ n/2. Gray Code là O(1) mỗi bước.<br>- Tổng thời gian khi in: O(n · n!), O(k · C(n, k)) và O(n · 2ⁿ).<br>- Đo thực tế: khoảng 2,6 đến 3,1 ns mỗi hoán vị hoặc tổ hợp, 0,47 ns mỗi mã Gray. | Tuần 3 mục 2.2, 2.3<br>Tuần 4 mục 2.2, 2.3 |
 | Test tối thiểu | - Trace tay: hoán vị n = 3, tổ hợp n = 5, k = 3 (TC10, TC18 tuần 3) và Gray Code n = 4 (tuần 2 mục 3.5).<br>- Dữ liệu lớn: 10!, C(20, 10), 2³⁰ (TC15, TC21 tuần 3; TC34 tuần 4) và benchmark.<br>- Trường hợp biên: n = 0, k = 0, k = n, phần tử trùng, nhập sai (TC01 tuần 2; TC11 đến TC14, TC19, TC20 tuần 3; TC33, TC36 tuần 4). | Mục 3 của tuần 2, 3, 4 |
 | CLI in k cấu hình đầu | Sau khi nhập thông số, chương trình hỏi số cấu hình muốn in. Thuật toán vẫn sinh và đếm đủ mọi cấu hình. | Tuần 4 mục 2.1 |
 | Hướng dẫn biên dịch và chạy | `g++ -std=c++17 -O2 comb_gen.cpp -o comb_gen`, thêm `-static` nếu gặp lỗi dll trên Windows. | Tuần 1 mục 2.4 |
