@@ -1,6 +1,6 @@
 #pragma once
 // Benchmark: đo thời gian sinh (không in) của 3 thuật toán, so với công thức n!, C(n,k), 2^n
-// Kết quả in ra màn hình và ghi vào bench_results.csv
+// Kết quả in ra màn hình và ghi vào results/bench_results.csv
 #include<bits/stdc++.h>
 #define ll long long
 using namespace std;
@@ -89,7 +89,11 @@ void runAlgo(ofstream& csv, const string& algo, int from, int to, int step){
 }
 
 void runBenchmark(){
-    ofstream csv("bench_results.csv");
+    ofstream csv("results/bench_results.csv");
+    if(!csv){ //thư mục results/ không tồn tại thì không mở được file
+        cout<<"\033[31m"<<"Loi: khong mo duoc results/bench_results.csv"<<"\033[0m"<<"\n";
+        return;
+    }
     string header="algo,n,k,formula,median_ms,ns_per_item,time_ratio,formula_ratio\n"; //thead của cái bảng csv xuất ra
     cout<<"Dang do, mat khoang 10-15 giay...\n"<<header;
     csv<<header;
@@ -97,5 +101,5 @@ void runBenchmark(){
     runAlgo(csv, "permutation", 8, 12, 1);  //hoán vị: n!, n từ 8 đến 12
     runAlgo(csv, "combination", 16, 30, 2); //tổ hợp: C(n, n/2), n từ 16 đến 30, mỗi lần tăng 2
     runAlgo(csv, "gray", 16, 28, 2);        //Gray Code: 2^n, n từ 16 đến 28, mỗi lần tăng 2
-    cout<<"Da ghi ket qua vao bench_results.csv\n";
+    cout<<"Da ghi ket qua vao results/bench_results.csv\n";
 }

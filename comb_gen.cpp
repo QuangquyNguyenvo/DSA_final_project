@@ -174,7 +174,7 @@ int main() {
             cout<<"\n";
         }
         else if(choice==4){
-            runBenchmark(); //đo thời gian 3 thuật toán, ghi kết quả vào bench_results.csv
+            runBenchmark(); //đo thời gian 3 thuật toán, ghi kết quả vào results/bench_results.csv
             cout<<"\n";
         }
     }
