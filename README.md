@@ -999,6 +999,9 @@ Sau tuần 3, chương trình đã có đủ ba thuật toán, menu và benchmar
 - Kiểm thử phần mới và chạy lại các test cũ sau khi sửa.
 - Tổng kết lại các yêu cầu của đề bài (mục 7).
 
+**Minh chứng:**
+![Kế hoạch tuần 3 và tuần 4 được viết tay trên Scrble](img/week_4_planning.png)
+
 ## 2. Công việc thực hiện
 
 ### 2.1. Giới hạn số cấu hình được in
