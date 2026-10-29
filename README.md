@@ -11,7 +11,7 @@
 | Họ và tên | MSSV |
 |---|---|
 | Nguyễn Võ Quang Quý | 25110055 |
-| Đào Nghiêm Minh | 25110042 |
+| Đào Nghiệm Minh | 25110042 |
 
 **GitHub Repository:** https://github.com/QuangquyNguyenvo/DSA_final_project
 
@@ -113,7 +113,7 @@ Sau khi chạy, chương trình hiển thị menu cho phép lựa chọn thuật
 | Thành viên | MSSV | Công việc tuần 1 |
 |---|---|---|
 | Nguyễn Võ Quang Quý | 25110055 | - Khởi tạo GitHub repository.<br>- Cài đặt Algorithm L bằng C++.<br>- Cài đặt thuật toán sinh tổ hợp bằng C++.<br>- Dựng khung báo cáo. |
-| Đào Nghiêm Minh | 25110042 | - Viết chú thích cho mã nguồn.<br>- Hoàn thiện báo cáo.<br>- Chụp ảnh minh họa test case. |
+| Đào Nghiệm Minh | 25110042 | - Viết chú thích cho mã nguồn.<br>- Hoàn thiện báo cáo.<br>- Chụp ảnh minh họa test case. |
 | Cả nhóm | | - Phân tích đề.<br>- Lập kế hoạch.<br>- Kiểm tra chéo mã nguồn và nội dung báo cáo của nhau. |
 
 ## 3. Kiểm thử và kết quả
@@ -393,11 +393,11 @@ Nhóm tiếp tục quản lý mã nguồn bằng GitHub theo quy trình: mỗi t
   - Phiên bản sau khi sửa (kiểm tra trực tiếp từng mã `graycode()` sinh ra): https://github.com/QuangquyNguyenvo/DSA_final_project/blob/8494cf2/comb_gen.cpp#L37-L76
 
 **Pull Request:**
-- PR #3 (`week2`, Đào Nghiêm Minh): triển khai Gray Code phiên bản ban đầu và khung README tuần 2: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/3
+- PR #3 (`week2`, Đào Nghiệm Minh): triển khai Gray Code phiên bản ban đầu và khung README tuần 2: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/3
 
 - PR #4 (`feature/graycode`, Nguyễn Võ Quang Quý): cải tiến Gray Code bằng bitwise, thêm hàm verify và bổ sung báo cáo: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/4
 
-- PR #5 (`week2`, Đào Nghiêm Minh): chỉnh sửa README tuần 2 và thêm bảng hand trace: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/5
+- PR #5 (`week2`, Đào Nghiệm Minh): chỉnh sửa README tuần 2 và thêm bảng hand trace: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/5
 
 - PR #6 (`feature/graycode`, Nguyễn Võ Quang Quý): chặn đầu vào không hợp lệ, cho `verifyGray()` kiểm tra trực tiếp output, thống nhất thông báo, bổ sung test n ≥ 10 và trace tay n = 4: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/6
 
@@ -420,7 +420,7 @@ Sau tuần 2, chương trình `comb_gen.cpp` đã tích hợp ba thuật toán t
 
 | Thành viên | MSSV | Công việc tuần 2 |
 |---|---|---|
-| Đào Nghiêm Minh | 25110042 | - Tìm hiểu và triển khai Gray Code phiên bản ban đầu.<br>- Hỗ trợ kiểm thử các test case.<br>- Tích hợp chương trình.<br>- Viết và tổng hợp báo cáo. |
+| Đào Nghiệm Minh | 25110042 | - Tìm hiểu và triển khai Gray Code phiên bản ban đầu.<br>- Hỗ trợ kiểm thử các test case.<br>- Tích hợp chương trình.<br>- Viết và tổng hợp báo cáo. |
 | Nguyễn Võ Quang Quý | 25110055 | - Review mã nguồn.<br>- Nghiên cứu phương pháp XOR.<br>- Phân tích thiết kế.<br>- Cải tiến mã nguồn.<br>- Xây dựng hàm kiểm thử.<br>- Viết và tổng hợp báo cáo. |
 | Cả nhóm | | - Kiểm tra chéo mã nguồn và báo cáo.<br>- Nộp bài. |
 
@@ -454,7 +454,7 @@ Các thao tác bitwise như XOR, AND, OR và dịch bit cũng là những kiến
 **Video minh chứng quá trình thực hiện tuần 2**
 
 - **Nguyễn Võ Quang Quý:** [Xem video](https://drive.google.com/file/d/1zdsthhp6V-TzWV5NbmcEFX3qUSoUhG5G/view)
-- **Đào Nghiêm Minh:** [Xem video](https://drive.google.com/file/d/1R3uiYg4pMr_WFpjEqWWMRmxVvOA08siG/view)
+- **Đào Nghiệm Minh:** [Xem video](https://drive.google.com/file/d/1R3uiYg4pMr_WFpjEqWWMRmxVvOA08siG/view)
 
 ### 8.2. Tài liệu tham khảo
 
@@ -885,8 +885,8 @@ Công việc tuần 3 được thực hiện trên nhánh `week3` và tích hợ
 - Kết quả benchmark: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/dbce015/bench_results.csv
 
 **Pull Request:**
-- PR #9 (`week3`, Đào Nghiêm Minh): hoàn thiện giao diện CLI, thêm báo cáo tuần 3 và phần phân tích độ phức tạp: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/9
-- PR #10 (`week3`, Đào Nghiêm Minh): bổ sung phần tổng quan, thiết kế CLI và benchmark: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/10
+- PR #9 (`week3`, Đào Nghiệm Minh): hoàn thiện giao diện CLI, thêm báo cáo tuần 3 và phần phân tích độ phức tạp: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/9
+- PR #10 (`week3`, Đào Nghiệm Minh): bổ sung phần tổng quan, thiết kế CLI và benchmark: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/10
 - PR #11 (`review/week3`, Nguyễn Võ Quang Quý): viết lại benchmark, sửa phép đo Gray Code, bổ sung kiểm thử và hoàn thiện báo cáo tuần 3: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/11
 
 **Commit:**
@@ -905,7 +905,7 @@ Công việc tuần 3 được thực hiện trên nhánh `week3` và tích hợ
 
 | Thành viên | MSSV | Công việc tuần 3 |
 |---|---|---|
-| Đào Nghiêm Minh | 25110042 | - Hoàn thiện giao diện CLI (tô màu, khung viền, lời nhắc nhập dữ liệu).<br>- Phân tích độ phức tạp của ba thuật toán.<br>- Xây dựng benchmark phiên bản đầu và đo Bảng 1, Bảng 2.<br>- Viết phần tổng quan, thiết kế CLI, độ phức tạp và benchmark trong báo cáo. |
+| Đào Nghiệm Minh | 25110042 | - Hoàn thiện giao diện CLI (tô màu, khung viền, lời nhắc nhập dữ liệu).<br>- Phân tích độ phức tạp của ba thuật toán.<br>- Xây dựng benchmark phiên bản đầu và đo Bảng 1, Bảng 2.<br>- Viết phần tổng quan, thiết kế CLI, độ phức tạp và benchmark trong báo cáo. |
 | Nguyễn Võ Quang Quý | 25110055 | - Review mã nguồn benchmark, phát hiện lỗi phép đo Gray Code.<br>- Viết lại `benchmark.h` và đo lại Bảng 3.<br>- Kiểm thử và trace tay sinh hoán vị, sinh tổ hợp.<br>- Viết phần kiểm thử, tích hợp mã nguồn, khó khăn và bổ sung kế hoạch tuần 4. |
 | Cả nhóm | | - Kiểm tra chéo mã nguồn và báo cáo.<br>- Nộp bài. |
 
@@ -1196,7 +1196,7 @@ Phần giới hạn in, đo benchmark và vẽ biểu đồ được làm trên 
 - Dữ liệu vẽ Biểu đồ 4: https://github.com/QuangquyNguyenvo/DSA_final_project/blob/07548d7/bench_ns_per_item.csv
 
 **Pull Request:**
-- PR #13 (`week4`, Đào Nghiêm Minh): thêm giới hạn số cấu hình được in, đo lại benchmark trên máy 1 và vẽ biểu đồ: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/13
+- PR #13 (`week4`, Đào Nghiệm Minh): thêm giới hạn số cấu hình được in, đo lại benchmark trên máy 1 và vẽ biểu đồ: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/13
 - PR #14 (`review/week4`, Nguyễn Võ Quang Quý): sửa lỗi nhập chữ ở `readLimit()`, dọn mã nguồn, bổ sung kiểm thử và hoàn thiện báo cáo tuần 4: https://github.com/QuangquyNguyenvo/DSA_final_project/pull/14
 
 **Commit:**
@@ -1209,7 +1209,7 @@ Phần giới hạn in, đo benchmark và vẽ biểu đồ được làm trên 
 
 | Thành viên | MSSV | Công việc tuần 4 |
 |---|---|---|
-| Đào Nghiêm Minh | 25110042 | - Thêm hàm `readLimit()` và giới hạn số cấu hình được in cho cả ba menu.<br>- Tô đỏ các thông báo lỗi nhập liệu.<br>- Đo lại benchmark trên máy 1 (Bảng 4, 5, 6), cập nhật `bench_results.csv`.<br>- Vẽ bốn biểu đồ bằng Google Sheets.<br>- Viết mục 2.1, 2.2, 2.3 trong báo cáo. |
+| Đào Nghiệm Minh | 25110042 | - Thêm hàm `readLimit()` và giới hạn số cấu hình được in cho cả ba menu.<br>- Tô đỏ các thông báo lỗi nhập liệu.<br>- Đo lại benchmark trên máy 1 (Bảng 4, 5, 6), cập nhật `bench_results.csv`.<br>- Vẽ bốn biểu đồ bằng Google Sheets.<br>- Viết mục 2.1, 2.2, 2.3 trong báo cáo. |
 | Nguyễn Võ Quang Quý | 25110055 | - Review mã nguồn tuần 4, phát hiện và sửa lỗi nhập chữ ở `readLimit()`.<br>- Dọn mã nguồn, tăng tốc phần in và đo thời gian in trước và sau khi sửa.<br>- Kiểm thử phần giới hạn in (TC25 đến TC36) và chạy lại các test cũ.<br>- Viết mục 2.4 và mục 3 đến mục 8 trong báo cáo. |
 | Cả nhóm | | - Kiểm tra chéo mã nguồn và báo cáo.<br>- Chuẩn bị cho phần vấn đáp.<br>- Nộp bài. |
 
