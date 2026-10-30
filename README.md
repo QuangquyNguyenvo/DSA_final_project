@@ -997,7 +997,8 @@ Sau tuần 3, chương trình đã có đủ ba thuật toán, menu và benchmar
 - Đo lại benchmark của cả ba thuật toán trên cùng một máy, rồi vẽ biểu đồ từ kết quả đo.
 - Dọn mã nguồn: bỏ hàm cũ không còn dùng và tăng tốc phần in kết quả.
 - Kiểm thử phần mới và chạy lại các test cũ sau khi sửa.
-- Tổng kết lại các yêu cầu của đề bài (mục 7).
+- Tổng kết lại các yêu cầu của đề bài (mục 8).
+- Viết hướng dẫn biên dịch và chạy chương trình (mục 7).
 
 **Minh chứng:**
 ![Kế hoạch tuần 3 và tuần 4 được viết tay trên Scrble](img/week_4_planning.png)
@@ -1110,21 +1111,13 @@ Các biểu đồ được vẽ bằng Google Sheets từ file [`bench_results.c
 - **Biểu đồ 1, 2, 3:** tổng thời gian sinh (`median_ms`) theo n, mỗi thuật toán một hình. Trục dọc dùng thang log vì thời gian tăng rất nhanh (hoán vị từ 0,12 ms lên 1 375 ms chỉ sau 4 lần tăng n).
 - **Biểu đồ 4:** thời gian sinh một cấu hình (`ns_per_item`) của cả ba thuật toán trên cùng một hình, dữ liệu lấy từ [`bench_ns_per_item.csv`](https://github.com/QuangquyNguyenvo/DSA_final_project/blob/07548d7/bench_ns_per_item.csv) (chỉ xếp lại cột `ns_per_item` cho dễ vẽ).
 
-**Biểu đồ 1. Hoán vị (Algorithm L): thời gian sinh theo n**
+**Biểu đồ 1, 2, 3. Thời gian sinh theo n của hoán vị (Algorithm L), tổ hợp chập k của n (k = n/2) và Gray Code**
 
-![Biểu đồ thời gian sinh hoán vị theo n](img/week_4_chart_perm_time.png)
-
-**Biểu đồ 2. Tổ hợp chập k của n (k = n/2): thời gian sinh theo n**
-
-![Biểu đồ thời gian sinh tổ hợp theo n](img/week_4_chart_comb_time.png)
-
-**Biểu đồ 3. Gray Code: thời gian sinh theo n**
-
-![Biểu đồ thời gian sinh Gray Code theo n](img/week_4_chart_gray_time.png)
+![Bảng bench_results.csv và biểu đồ thời gian sinh theo n của ba thuật toán](img/week_4_chart_time_sheet.png)
 
 **Biểu đồ 4. Thời gian sinh một cấu hình theo n**
 
-![Biểu đồ thời gian sinh một cấu hình của ba thuật toán theo n](img/week_4_chart_ns.png)
+![Bảng ns_per_item và biểu đồ thời gian sinh một cấu hình của ba thuật toán theo n](img/week_4_chart_ns_sheet.png)
 
 **Nhận xét:**
 
@@ -1171,15 +1164,15 @@ Thời gian in giảm còn khoảng một nửa, còn output của hai bản gi�
 | TC34 | 3. Gray Code | n = 30, `limit` = 1 | In 1 mã, `verifyGray()` vẫn kiểm tra đủ 2³⁰ mã | 1 mã, `...`, `Tong so ma Gray: 1073741824`, `Kiem tra Gray Code: DUNG` | PASS |
 | TC35 | 3. Gray Code | n = 3, `limit` = -1 | Báo lỗi và quay lại menu | `Loi: so cau hinh can in phai >= 0` | PASS |
 | TC36 | 3. Gray Code | n = 3, `limit` = `abc` | Báo lỗi, quay lại menu và dùng tiếp được | Bản `f4c36a7`: báo lỗi rồi chương trình thoát. Bản `5d553d1`: báo lỗi, quay lại menu, chạy tiếp menu 3 bình thường | PASS (sau khi sửa) |
-
+---
 Ở TC34, Gray Code n = 30 trước đây phải in hơn 1 tỉ dòng, giờ chỉ in 1 dòng mà vẫn sinh và kiểm tra đủ 2³⁰ mã.
 
 ![TC34: Gray Code n = 30, chỉ in 1 mã nhưng vẫn đếm và kiểm tra đủ 2³⁰ mã](img/week_4_tc34_gray_n30.png)
-
+---
 TC36 lúc đầu không đạt: chương trình báo lỗi đúng nhưng sau đó thoát luôn, không quay lại menu. Nguyên nhân và cách sửa ở mục 6.
 
 ![TC36: nhập chữ ở lời nhắc số cấu hình, chương trình báo lỗi rồi quay lại menu](img/week_4_tc36_invalid_limit.png)
-
+---
 ### 3.2. Kiểm thử lại sau khi dọn mã nguồn
 
 Sau khi dọn mã nguồn (mục 2.4), nhóm chạy lại TC10 đến TC36 và menu 4 (benchmark). Kết quả giống hệt trước khi sửa.
@@ -1210,8 +1203,8 @@ Phần giới hạn in, đo benchmark và vẽ biểu đồ được làm trên 
 
 | Thành viên | MSSV | Công việc tuần 4 |
 |---|---|---|
-| Đào Nghiệm Minh | 25110042 | - Thêm hàm `readLimit()` và giới hạn số cấu hình được in cho cả ba menu.<br>- Tô đỏ các thông báo lỗi nhập liệu.<br>- Đo lại benchmark trên máy 1 (Bảng 4, 5, 6), cập nhật `bench_results.csv`.<br>- Vẽ bốn biểu đồ bằng Google Sheets.<br>- Viết mục 2.1, 2.2, 2.3 trong báo cáo. |
-| Nguyễn Võ Quang Quý | 25110055 | - Review mã nguồn tuần 4, phát hiện và sửa lỗi nhập chữ ở `readLimit()`.<br>- Dọn mã nguồn, tăng tốc phần in và đo thời gian in trước và sau khi sửa.<br>- Kiểm thử phần giới hạn in (TC25 đến TC36) và chạy lại các test cũ.<br>- Viết mục 2.4 và mục 3 đến mục 8 trong báo cáo. |
+| Đào Nghiệm Minh | 25110042 | - Thêm hàm `readLimit()` và giới hạn số cấu hình được in cho cả ba menu.<br>- Tô đỏ các thông báo lỗi nhập liệu.<br>- Đo lại benchmark trên máy 1 (Bảng 4, 5, 6), cập nhật `bench_results.csv`.<br>- Vẽ bốn biểu đồ bằng Google Sheets.<br>- Viết mục 2.1, 2.2, 2.3 và mục 7 trong báo cáo. |
+| Nguyễn Võ Quang Quý | 25110055 | - Review mã nguồn tuần 4, phát hiện và sửa lỗi nhập chữ ở `readLimit()`.<br>- Dọn mã nguồn, tăng tốc phần in và đo thời gian in trước và sau khi sửa.<br>- Kiểm thử phần giới hạn in (TC25 đến TC36) và chạy lại các test cũ.<br>- Viết mục 2.4, mục 3 đến mục 6, mục 8 và mục 9 trong báo cáo. |
 | Cả nhóm | | - Kiểm tra chéo mã nguồn và báo cáo.<br>- Chuẩn bị cho phần vấn đáp.<br>- Nộp bài. |
 
 ## 6. Khó khăn và hướng giải quyết
@@ -1219,7 +1212,41 @@ Phần giới hạn in, đo benchmark và vẽ biểu đồ được làm trên 
 - **Nhập chữ ở lời nhắc số cấu hình làm chương trình thoát (TC36):** khi nhập chữ thay vì số, `cin` bị lỗi và phần chữ vẫn nằm lại trong luồng nhập, nên lần đọc lựa chọn menu tiếp theo cũng lỗi và chương trình thoát. Nhóm thêm `cin.clear()` để xóa lỗi và thử `cin.ignore()` để bỏ phần chữ, nhưng chương trình vẫn thoát, vì `cin.ignore()` không có tham số chỉ bỏ 1 ký tự: nhập `abc` thì vẫn còn sót `bc`. Nhóm đổi thành `cin.ignore(1000, '\n')` để bỏ phần còn lại của dòng vừa nhập sai, tối đa 1000 ký tự. Với cách nhập bình thường thì như vậy là đủ.
 - **Số liệu Gray Code dao động ở lần đo đầu:** mỗi mã chỉ mất khoảng 0,5 ns nên số liệu dễ bị ảnh hưởng bởi các ứng dụng chạy nền. Ngoài ra, laptop chạy pin có thể tự hạ xung nhịp CPU để tiết kiệm điện. Nhóm đo lại khi máy đang cắm sạc và đã tắt bớt ứng dụng, chạy 3 lần liên tiếp thì cả ba lần đều cho kết quả gần như nhau.
 
-## 7. Tổng kết: đối chiếu yêu cầu đề bài
+## 7. Hướng dẫn biên dịch và chạy chương trình
+
+Chương trình được viết bằng C++17, sử dụng trình biên dịch G++. Hai file `comb_gen.cpp` và `benchmark.h` cần nằm cùng một thư mục.
+
+Biên dịch:
+
+```bash
+g++ -std=c++17 -O2 comb_gen.cpp -o comb_gen
+```
+
+Nếu chương trình bị crash trên Windows do lỗi file `.dll`, thêm cờ `-static` khi biên dịch (xem tuần 3 mục 6).
+
+Chạy trên Windows PowerShell:
+
+```powershell
+.\comb_gen.exe
+```
+
+Chạy trên Linux:
+
+```bash
+./comb_gen
+```
+
+Menu chương trình:
+
+- **1. Sinh hoán vị (Algorithm L):** nhập n (0 ≤ n ≤ 10) và n phần tử.
+- **2. Sinh tổ hợp chập k của n:** nhập n và k (0 ≤ k ≤ n ≤ 20).
+- **3. Sinh tập con bằng Gray Code:** nhập n (0 ≤ n ≤ 30).
+- **4. Benchmark:** đo thời gian ba thuật toán và ghi kết quả vào `results/bench_results.csv`, nên cần chạy chương trình ở thư mục gốc của repo.
+- **0. Thoát.**
+
+Ở menu 1 đến 3, sau khi nhập dữ liệu, chương trình hỏi số cấu hình muốn in (nhập 0 để in tất cả).
+
+## 8. Tổng kết: đối chiếu yêu cầu đề bài
 
 Tuần 4 là tuần cuối, nên nhóm tổng hợp lại từng yêu cầu của đề bài: đã làm như thế nào (Self-Explanation) và xem chi tiết ở đâu.
 
@@ -1233,18 +1260,18 @@ Tuần 4 là tuần cuối, nên nhóm tổng hợp lại từng yêu cầu củ
 | Độ phức tạp: thời gian sinh mỗi cấu hình và tổng thời gian | - Sinh mỗi cấu hình: hoán vị các phần tử khác nhau là O(1) khấu hao. Tổ hợp là O(k) trong trường hợp xấu nhất, O(1) khấu hao khi k ≤ n/2. Gray Code là O(1) mỗi bước.<br>- Tổng thời gian khi in: O(n · n!), O(k · C(n, k)) và O(n · 2ⁿ).<br>- Đo thực tế: khoảng 2,6 đến 3,1 ns mỗi hoán vị hoặc tổ hợp, 0,47 ns mỗi mã Gray. | Tuần 3 mục 2.2, 2.3<br>Tuần 4 mục 2.2, 2.3 |
 | Test tối thiểu | - Trace tay: hoán vị n = 3, tổ hợp n = 5, k = 3 (TC10, TC18 tuần 3) và Gray Code n = 4 (tuần 2 mục 3.5).<br>- Dữ liệu lớn: 10!, C(20, 10), 2³⁰ (TC15, TC21 tuần 3; TC34 tuần 4) và benchmark.<br>- Trường hợp biên: n = 0, k = 0, k = n, phần tử trùng, nhập sai (TC01 tuần 2; TC11 đến TC14, TC19, TC20 tuần 3; TC33, TC36 tuần 4). | Mục 3 của tuần 2, 3, 4 |
 | CLI in k cấu hình đầu | Sau khi nhập thông số, chương trình hỏi số cấu hình muốn in. Thuật toán vẫn sinh và đếm đủ mọi cấu hình. | Tuần 4 mục 2.1 |
-| Hướng dẫn biên dịch và chạy | `g++ -std=c++17 -O2 comb_gen.cpp -o comb_gen`, thêm `-static` nếu gặp lỗi dll trên Windows. | Tuần 1 mục 2.4 |
-| Khai báo sử dụng AI | Ghi ở mục khai báo AI của từng tuần. | Tuần 1 mục 7<br>Tuần 2 đến 4 mục 8 |
+| Hướng dẫn biên dịch và chạy | `g++ -std=c++17 -O2 comb_gen.cpp -o comb_gen`, thêm `-static` nếu gặp lỗi dll trên Windows. | Tuần 1 mục 2.4<br>Tuần 4 mục 7 |
+| Khai báo sử dụng AI | Ghi ở mục khai báo AI của từng tuần. | Tuần 1 mục 7<br>Tuần 2, 3 mục 8<br>Tuần 4 mục 9 |
 
-## 8. Khai báo sử dụng AI và nguồn tài liệu tham khảo
+## 9. Khai báo sử dụng AI và nguồn tài liệu tham khảo
 
-### 8.1. Khai báo sử dụng AI và nguồn gốc kiến thức
+### 9.1. Khai báo sử dụng AI và nguồn gốc kiến thức
 
 Trong tuần 4, nhóm chủ yếu tối ưu chương trình và hoàn thiện các phần còn thiếu từ những tuần trước, thay vì nghiên cứu thêm thuật toán mới. Các công việc được thực hiện dựa trên kiến thức đã tìm hiểu và mã nguồn đã xây dựng, nên nhóm không sử dụng công cụ AI để nghiên cứu, viết hoặc sửa mã nguồn trong tuần này.
 
-Nhóm chỉ sử dụng công cụ tìm kiếm Google để tra cứu cách dùng một số hàm và thiết lập nhập xuất trong C++, cụ thể là `cin.clear()`, `cin.ignore()` để xử lý dữ liệu nhập sai và `ios::sync_with_stdio(false)` để tăng tốc nhập xuất. Các tài liệu tham khảo được liệt kê tại mục 8.2.
+Nhóm chỉ sử dụng công cụ tìm kiếm Google để tra cứu cách dùng một số hàm và thiết lập nhập xuất trong C++, cụ thể là `cin.clear()`, `cin.ignore()` để xử lý dữ liệu nhập sai và `ios::sync_with_stdio(false)` để tăng tốc nhập xuất. Các tài liệu tham khảo được liệt kê tại mục 9.2.
 
-### 8.2. Tài liệu tham khảo
+### 9.2. Tài liệu tham khảo
 
 **[1] GeeksforGeeks: How to Handle Wrong Data Type Input in C++?**
 
