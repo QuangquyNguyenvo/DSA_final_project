@@ -59,6 +59,13 @@ bool graycode(int n, ll limit){
         if(limit==0 || cnt<limit){ //chỉ in limit mã đầu tiên
             cout<<"{ ";
             for(int j=n-1; j>=0;j--) cout<<((gray>>j)&1)<<" ";
+            cout<<"} -> {";
+            bool first = true;
+            for(int j=n-1; j>=0; j--) if((gray>>j)&1){
+                if(!first) cout<<", ";
+                cout<<n-j;
+                first = false;
+            }
             cout<<"}\n";
         }
 
