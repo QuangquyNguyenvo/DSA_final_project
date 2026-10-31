@@ -18,6 +18,11 @@ Sau tuần 3, chương trình đã có đủ ba thuật toán, menu và benchmar
 - Kiểm thử phần mới và chạy lại các test cũ sau khi sửa.
 - Tổng kết lại các yêu cầu của đề bài (mục 8).
 - Viết hướng dẫn biên dịch và chạy chương trình (mục 7).
+- Hoàn thiện báo cáo cuối từ nội dung của bốn tuần.
+- Sắp xếp lại thư mục báo cáo, ảnh minh chứng và kết quả benchmark.
+- Bổ sung kiểm chứng mọi k với n đến 10, đo thêm tổ hợp khi k gần n và đổi CLI để dừng khi đủ số cấu hình cần in.
+
+Các mục 2.1 đến 2.5 và bảng kiểm thử cũ ghi lại bản trước khi đổi CLI sang dừng sớm. Thay đổi cuối tuần được tóm tắt ở mục 2.7, kết quả mới nằm trong báo cáo cuối tại `README.md`.
 
 **Minh chứng:**
 ![Kế hoạch tuần 3 và tuần 4 được viết tay trên Scrble](../img/week_4_planning.png)
@@ -110,7 +115,7 @@ Cách đo và bộ dữ liệu giống mục 2.3.3 và 2.3.4 tuần 3 (1 lần k
 | 16 | 65 536 | 0,0309 | 0,47 |  |  |
 | 18 | 262 144 | 0,1207 | 0,46 | 3,91 | 4 |
 | 20 | 1 048 576 | 0,4852 | 0,46 | 4,02 | 4 |
-| 22 | 4 194 304 | 1,934 | 0,46 | 3,98 | 4 |
+| 22 | 4 194 304 | 1,934 | 0,46 | 3,99 | 4 |
 | 24 | 16 777 216 | 7,75 | 0,46 | 4,01 | 4 |
 | 26 | 67 108 864 | 32,49 | 0,48 | 4,19 | 4 |
 | 28 | 268 435 456 | 128 | 0,48 | 3,94 | 4 |
@@ -183,6 +188,20 @@ Thời gian in giảm còn khoảng một nửa, còn output của hai bản gi�
 
 **Mã nguồn:** commit dọn mã nguồn: https://github.com/QuangquyNguyenvo/DSA_final_project/commit/997cfa2
 
+### 2.6. Hoàn thiện báo cáo cuối và sắp xếp thư mục
+
+Nhóm tổng hợp nội dung của bốn tuần vào `README.md`, sắp xếp lại các mục và chỉnh câu chữ cho dễ đọc. Phần hoàn thiện gồm rà lại Self-Explanation, độ phức tạp, bảng kiểm thử, phân công và tài liệu tham khảo.
+
+Các báo cáo tuần được lưu trong `reports/`, ảnh minh chứng trong `img/` và dữ liệu benchmark trong `results/`. Nhóm cập nhật lại đường dẫn để các file và ảnh hiển thị đúng. Số liệu và kết quả kiểm thử được giữ theo các lần đã ghi nhận.
+
+### 2.7. Kiểm chứng bổ sung và dừng sinh theo limit
+
+CLI được sửa để dừng khi đủ `limit`, đồng thời in riêng số đã sinh và tổng theo công thức. Hoán vị được mở đến n = 20. Cả ba menu chỉ cho in hết khi tổng không quá 3.628.800 cấu hình. Khi vượt ngưỡng này, chương trình yêu cầu `limit` lớn hơn 0. Hoán vị có phần tử trùng được xét theo số hoán vị phân biệt, nên n = 11 hay n = 20 toàn giá trị giống nhau vẫn được in hết. Khi chỉ sinh một phần dãy Gray, chương trình chỉ kiểm tra tính chất một bit trên phần đã sinh.
+
+Phần kiểm chứng toàn bộ được chạy riêng với n từ 0 đến 10 và mọi k hợp lệ. Cả 88 bộ đều đạt. Kiểm thử CLI mới đạt 60 bộ, gồm cả hoán vị n = 20 chỉ sinh hai cấu hình và Gray Code n = 30 chỉ sinh một cấu hình.
+
+Nhóm bổ sung mã đo tổ hợp với n = 26 và k lần lượt là 2, 13, 24, 25. Kết quả được lưu riêng vì máy 2 dùng g++ 16.2.0 và RAM 16 GB, khác môi trường máy 1. Bảng số liệu và cách chạy lại nằm ở mục 6.5 của báo cáo cuối.
+
 ## 3. Kiểm thử và kiểm chứng
 
 ### 3.1. Kiểm thử phần giới hạn số cấu hình được in
@@ -250,8 +269,8 @@ Phần giới hạn in, đo benchmark và vẽ biểu đồ được làm trên 
 
 | Thành viên | MSSV | Công việc tuần 4 |
 |---|---|---|
-| Đào Nghiệm Minh | 25110042 | - Thêm hàm `readLimit()` và giới hạn số cấu hình được in cho cả ba menu.<br>- Tô đỏ các thông báo lỗi nhập liệu.<br>- Đo lại benchmark trên máy 1 (Bảng 4, 5, 6), cập nhật `bench_results.csv`.<br>- Vẽ bốn biểu đồ bằng Google Sheets.<br>- Viết mục 2.1, 2.2, 2.3 và mục 7 trong báo cáo. |
-| Nguyễn Võ Quang Quý | 25110055 | - Review mã nguồn tuần 4, phát hiện và sửa lỗi nhập chữ ở `readLimit()`.<br>- Dọn mã nguồn, tăng tốc phần in và đo thời gian in trước và sau khi sửa.<br>- Kiểm thử phần giới hạn in (TC25 đến TC36) và chạy lại các test cũ.<br>- Viết mục 2.5, mục 3 đến mục 6, mục 8 và mục 9 trong báo cáo. |
+| Đào Nghiệm Minh | 25110042 | - Thêm hàm `readLimit()` và giới hạn số cấu hình được in cho cả ba menu.<br>- Tô đỏ các thông báo lỗi nhập liệu.<br>- Đo lại benchmark trên máy 1 (Bảng 4, 5, 6), cập nhật `bench_results.csv`.<br>- Vẽ bốn biểu đồ bằng Google Sheets.<br>- Viết mục 2.1, 2.2, 2.3 và mục 7 trong báo cáo.<br>- Phụ trách bộ kiểm chứng đầy đủ n từ 0 đến 10 và benchmark thay đổi k trên máy 2. |
+| Nguyễn Võ Quang Quý | 25110055 | - Review mã nguồn tuần 4, phát hiện và sửa lỗi nhập chữ ở `readLimit()`.<br>- Dọn mã nguồn, tăng tốc phần in và đo thời gian in trước và sau khi sửa.<br>- Kiểm thử phần giới hạn in (TC25 đến TC36) và chạy lại các test cũ.<br>- Viết mục 2.5, mục 3 đến mục 6, mục 8 và mục 9 trong báo cáo.<br>- Phụ trách CLI dừng sớm, giới hạn in theo tổng, bộ test CLI và chạy lại TC10 đến TC42. |
 | Cả nhóm | | - Kiểm tra chéo mã nguồn và báo cáo.<br>- Chuẩn bị cho phần vấn đáp.<br>- Nộp bài. |
 
 ## 6. Khó khăn và hướng giải quyết
@@ -285,7 +304,7 @@ Chạy trên Linux:
 
 Menu chương trình:
 
-- **1. Sinh hoán vị (Algorithm L):** nhập n (0 ≤ n ≤ 10) và n phần tử.
+- **1. Sinh hoán vị (Algorithm L):** nhập n (0 ≤ n ≤ 20) và n phần tử.
 - **2. Sinh tổ hợp chập k của n:** nhập n và k (0 ≤ k ≤ n ≤ 20).
 - **3. Sinh tập con bằng Gray Code:** nhập n (0 ≤ n ≤ 30).
 - **4. Benchmark:** đo thời gian ba thuật toán và ghi kết quả vào `results/bench_results.csv`, nên cần chạy chương trình ở thư mục gốc của repo.
@@ -314,7 +333,7 @@ Tuần 4 là tuần cuối, nên nhóm tổng hợp lại từng yêu cầu củ
 
 ### 9.1. Khai báo sử dụng AI và nguồn gốc kiến thức
 
-Trong tuần 4, nhóm chủ yếu tối ưu chương trình và hoàn thiện các phần còn thiếu từ những tuần trước, thay vì nghiên cứu thêm thuật toán mới. Các công việc được thực hiện dựa trên kiến thức đã tìm hiểu và mã nguồn đã xây dựng.
+Trong tuần 4, nhóm chủ yếu sửa lỗi, tối ưu chương trình và hoàn thiện các phần còn thiếu từ những tuần trước. Nhóm dựa trên kiến thức đã tìm hiểu và mã nguồn đã có để thực hiện các công việc này. Nhóm không sử dụng AI trong tuần 4.
 
 Nhóm sử dụng công cụ tìm kiếm để tra cứu cách dùng một số hàm và thiết lập nhập xuất trong C++, cụ thể là `cin.clear()`, `cin.ignore()` để xử lý dữ liệu nhập sai và `ios::sync_with_stdio(false)` để tăng tốc nhập xuất. Các tài liệu tham khảo được liệt kê tại mục 9.2.
 
