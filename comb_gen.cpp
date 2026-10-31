@@ -86,6 +86,15 @@ void print(const vector<int>& a){
     cout<<"}\n";
 }
 
+// đọc một số nguyên; nhập chữ thì báo lỗi, xóa lỗi của cin và trả về false để quay lại menu
+template<class T> bool readNumber(T& x){
+    if(cin>>x) return true;
+    cin.clear();
+    cin.ignore(1000, '\n');
+    cout<<"\033[31m"<<"Loi: can nhap so nguyen"<<"\033[0m"<<"\n";
+    return false;
+}
+
 // hỏi số cấu hình đầu tiên cần in, trả về -1 nếu nhập sai
 ll readLimit(){
     ll limit;
@@ -115,7 +124,8 @@ int main() {
         if(choice==0) break;
         if(choice==1) { // lexicographic permutation (hoán vị)
             cout<<"\033[33m"<<"============================================"<<"\033[0m"<<"\n";
-            ll n; cout<<"So luong phan tu (n): "; cin>>n;
+            ll n; cout<<"So luong phan tu (n): ";
+            if(!readNumber(n)) continue;
             //chặn n âm (có thể gây crash) và n quá lớn (sẽ in quá nhiều dòng)
             cout<<"--------------------------------------------\n";
             if(n<0||n>10) {
@@ -123,7 +133,12 @@ int main() {
                 continue;
             }
             vector<int> a(n);
-            for(int i=0;i<n;i++) cout<<"Phan tu ["<<i<<"] = ", cin>>a[i]; //nhập phần tử
+            bool ok=true;
+            for(int i=0;i<n && ok;i++) { //nhập phần tử
+                cout<<"Phan tu ["<<i<<"] = ";
+                ok=readNumber(a[i]);
+            }
+            if(!ok) continue;
             ll limit=readLimit();
             if(limit<0) continue;
             sort(a.begin(),a.end()); //sắp xếp về hoán vị đầu tiên
@@ -139,9 +154,11 @@ int main() {
         }
         else if(choice==2){
             cout<<"\033[33m"<<"============================================"<<"\033[0m"<<"\n";
-            ll n,k; cout<<"Co bao nhieu phan tu {1->n}: "; cin>>n; //chọn k phần tử từ {1..n}
+            ll n,k; cout<<"Co bao nhieu phan tu {1->n}: "; //chọn k phần tử từ {1..n}
+            if(!readNumber(n)) continue;
             cout<<"--------------------------------------------\n";
-            cout<<"Kich thuoc cua to hop: "; cin>>k;
+            cout<<"Kich thuoc cua to hop: ";
+            if(!readNumber(k)) continue;
             cout<<"--------------------------------------------\n";
             //chặn k > n, số âm và n quá lớn
             if(n<0||n>20 || k<0 || k>n) {
@@ -166,7 +183,8 @@ int main() {
         }
         else if(choice==3){
             cout<<"\033[33m"<<"============================================"<<"\033[0m"<<"\n";
-            int n; cout<<"Kich thuoc cua cac tap con Gray Code: "; cin>>n;
+            int n; cout<<"Kich thuoc cua cac tap con Gray Code: ";
+            if(!readNumber(n)) continue;
             //chặn n âm (1<<n không hợp lệ) và n > 30 (1<<n tràn int)
             cout<<"--------------------------------------------\n";
             if(n<0||n>30) {
