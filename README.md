@@ -843,7 +843,7 @@ Output chương trình in đúng 10 tổ hợp theo thứ tự trên và `Tong s
 | TC16 | Dữ liệu không hợp lệ (âm) | n = -1 | Báo lỗi và quay lại menu | `Loi: n phai thoa 0 <= n <= 10` | PASS |
 | TC17 | Vượt giới hạn | n = 11 | Báo lỗi và quay lại menu | `Loi: n phai thoa 0 <= n <= 10` | PASS |
 
-Ở TC13 và TC14, chương trình không in hoán vị nào bị lặp lại là nhờ dấu `>=` ở dòng 10 và `<=` ở dòng 14. Hai phần tử bằng nhau thì không bao giờ bị đổi chỗ cho nhau, nên mỗi hoán vị chỉ xuất hiện một lần.
+Ở TC13 và TC14, chương trình không in hoán vị nào bị lặp lại là nhờ dấu `>=` ở dòng 10 và `<=` ở dòng 14. Pivot chỉ được đổi với một phần tử lớn hơn nó, rồi phần đuôi được đảo để tạo hoán vị kế tiếp theo thứ tự từ điển. Vì mỗi bước đều tăng thứ tự từ điển, chương trình không sinh lại hoán vị đã xuất hiện.
 
 ![TC13: hoán vị có phần tử trùng {1, 1, 2}](img/week_3_perm_duplicate.png)
 
@@ -1148,6 +1148,10 @@ Thay đổi chỉ nằm ở phần in trong `graycode()`: duyệt các bit từ 
 
 Cách hiển thị này làm rõ kết quả subset theo yêu cầu đề bài: người dùng vừa thấy mã bit, vừa thấy tập con tương ứng, và có thể đối chiếu trực tiếp việc mỗi bước chỉ thêm hoặc bỏ đúng một phần tử. Chương trình đã được biên dịch và chạy thử với n = 3 và n = 0 (tập rỗng), phần kiểm tra Gray Code đều trả về đúng.
 
+**Minh chứng sau khi sửa:**
+
+![Kết quả Gray Code n = 3: in chuỗi bit và tập con tương ứng](img/graycode_subset_output.png)
+
 ### 2.5. Dọn mã nguồn và tăng tốc in kết quả
 
 Nhóm đọc lại `comb_gen.cpp` và sửa thêm vài chỗ nhỏ:
@@ -1170,6 +1174,8 @@ Thời gian in giảm còn khoảng một nửa, còn output của hai bản gi�
 ## 3. Kiểm thử và kiểm chứng
 
 ### 3.1. Kiểm thử phần giới hạn số cấu hình được in
+
+Các kết quả và ảnh trong phần này được ghi nhận trước khi bổ sung cách in subset ở mục 2.4; phiên bản hiện tại in thêm tập con bên cạnh chuỗi bit. Phép so sánh output sau khi dọn mã nguồn cũng thuộc thời điểm trước thay đổi hiển thị này.
 
 Ở mỗi test, nhóm kiểm tra ba điều: chương trình in đúng `limit` cấu hình đầu, có `...` khi còn cấu hình chưa in, và `Tong so ...` vẫn là tổng thật. Mã test được đánh số tiếp theo tuần 3.
 
@@ -1290,9 +1296,9 @@ Tuần 4 là tuần cuối, nên nhóm tổng hợp lại từng yêu cầu củ
 
 ### 9.1. Khai báo sử dụng AI và nguồn gốc kiến thức
 
-Trong tuần 4, nhóm chủ yếu tối ưu chương trình và hoàn thiện các phần còn thiếu từ những tuần trước, thay vì nghiên cứu thêm thuật toán mới. Các công việc được thực hiện dựa trên kiến thức đã tìm hiểu và mã nguồn đã xây dựng, nên nhóm không sử dụng công cụ AI để nghiên cứu, viết hoặc sửa mã nguồn trong tuần này.
+Trong tuần 4, nhóm chủ yếu tối ưu chương trình và hoàn thiện các phần còn thiếu từ những tuần trước, thay vì nghiên cứu thêm thuật toán mới. Các công việc được thực hiện dựa trên kiến thức đã tìm hiểu và mã nguồn đã xây dựng.
 
-Nhóm chỉ sử dụng công cụ tìm kiếm Google để tra cứu cách dùng một số hàm và thiết lập nhập xuất trong C++, cụ thể là `cin.clear()`, `cin.ignore()` để xử lý dữ liệu nhập sai và `ios::sync_with_stdio(false)` để tăng tốc nhập xuất. Các tài liệu tham khảo được liệt kê tại mục 9.2.
+Nhóm sử dụng công cụ tìm kiếm để tra cứu cách dùng một số hàm và thiết lập nhập xuất trong C++, cụ thể là `cin.clear()`, `cin.ignore()` để xử lý dữ liệu nhập sai và `ios::sync_with_stdio(false)` để tăng tốc nhập xuất. Các tài liệu tham khảo được liệt kê tại mục 9.2.
 
 ### 9.2. Tài liệu tham khảo
 
