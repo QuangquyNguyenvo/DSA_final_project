@@ -1133,18 +1133,11 @@ Nhóm bổ sung phần in tập con thật của tập {1, 2, ..., n} ngay bên 
 
 Ví dụ với n = 3:
 
-```text
-{ 0 0 0 } -> {}
-{ 0 0 1 } -> {3}
-{ 0 1 1 } -> {2, 3}
-{ 0 1 0 } -> {2}
-{ 1 1 0 } -> {1, 2}
-{ 1 1 1 } -> {1, 2, 3}
-{ 1 0 1 } -> {1, 3}
-{ 1 0 0 } -> {1}
-```
+Với `n = 3`, xét tập `S = {1, 2, 3}`. Ở mỗi bước, tính `G(i) = i ^ (i >> 1)`, viết mã thành 3 bit rồi chọn các phần tử ứng với bit `1`. Trong bảng, dấu ✓ nghĩa là chọn, dấu × nghĩa là không chọn. Ví dụ, `i = 2` cho `G(2) = 011`, tương ứng tập con `{2, 3}`. Bước tiếp theo là `010`, tương ứng `{2}`: chỉ bỏ phần tử `3`. Mã `000` biểu diễn tập rỗng `{}`.
 
-Thay đổi chỉ nằm ở phần in trong `graycode()`: duyệt các bit từ trái sang phải, nếu bit thứ j bằng 1 thì in phần tử `n-j`, dùng biến `first` để ngăn cách các phần tử bằng dấu phẩy. Công thức `i ^ (i >> 1)`, thứ tự mã Gray, giới hạn in và phần kiểm tra `verifyGray()` vẫn giữ nguyên.
+![Bảng hand trace Gray Code sang tập con với n = 3 và S = {1, 2, 3}](img/graycode_subset_hand_trace_manual.png)
+
+Thay đổi chỉ nằm ở phần in trong `graycode()`. Trong code, `j` là chỉ số bit tính từ phải, bắt đầu từ `0`. Vòng lặp duyệt `j` từ `n-1` xuống `0`, tức duyệt các bit từ trái sang phải; nếu bit bằng `1` thì in phần tử tương ứng là `n-j`. Biến `first` dùng để ngăn cách các phần tử bằng dấu phẩy. Công thức `i ^ (i >> 1)`, thứ tự mã Gray, giới hạn in và phần kiểm tra `verifyGray()` vẫn giữ nguyên.
 
 Cách hiển thị này làm rõ kết quả subset theo yêu cầu đề bài: người dùng vừa thấy mã bit, vừa thấy tập con tương ứng, và có thể đối chiếu trực tiếp việc mỗi bước chỉ thêm hoặc bỏ đúng một phần tử. Chương trình đã được biên dịch và chạy thử với n = 3 và n = 0 (tập rỗng), phần kiểm tra Gray Code đều trả về đúng.
 
