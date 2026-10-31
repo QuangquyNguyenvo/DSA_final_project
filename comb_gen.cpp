@@ -6,7 +6,7 @@ using namespace std;
 // nguồn: https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
 
 bool nextPermutation(vector<int>& a){
-    int i=a.size()-2;
+    int i=static_cast<int>(a.size())-2;
     while(i>=0 && a[i]>=a[i+1]) i--; //tìm pivot: vị trí phải nhất có a[i] < a[i+1]
     if(i<0) return false; //dãy giảm dần -> hết hoán vị
 
@@ -45,16 +45,28 @@ bool verifyGray(int current, int previous, vector<bool>& seen){
     }
     return true;
 }
-// Gray Code: sinh, in và đưa từng mã qua verifyGray() để kiểm tra
-// limit = số mã được in ra màn hình (0 = in tất cả), vẫn sinh và kiểm tra đủ 2^n mã
+// Đếm hoán vị phân biệt của dãy đã sắp xếp, có tính phần tử trùng.
+ll permutationCount(const vector<int>& a){
+    ll denominator=1;
+    for(size_t i=0; i<a.size();){
+        size_t j=i+1;
+        while(j<a.size() && a[j]==a[i]) j++;
+        denominator*=fact(static_cast<int>(j-i));
+        i=j;
+    }
+    return fact(static_cast<int>(a.size()))/denominator;
+}
+// limit > 0: dừng sau limit mã. limit = 0: sinh và kiểm tra toàn bộ.
 bool graycode(int n, ll limit){
     int total = 1<<n; //2^n
-    vector<bool> seen(total, false); //seen[x]=true nếu mã x đã xuất hiện
+    int count = limit==0 ? total : static_cast<int>(min<ll>(limit,total));
+    vector<bool> seen;
+    if(count==total) seen.assign(total, false);
     int previous = -1; // -1 = chưa có mã trước nó
     int cnt = 0; //đếm số mã đã sinh
     bool ok = true;
 
-    for(int i=0; i<total;i++) {
+    for(int i=0; i<count;i++) {
         int gray= i^(i>>1);
         if(limit==0 || cnt<limit){ //chỉ in limit mã đầu tiên
             cout<<"{ ";
@@ -69,13 +81,18 @@ bool graycode(int n, ll limit){
             cout<<"}\n";
         }
 
-        if(!verifyGray(gray, previous, seen)) ok = false;
+        if(count==total){
+            if(!verifyGray(gray, previous, seen)) ok = false;
+        } else if(previous!=-1 && __builtin_popcount(previous^gray)!=1){
+            ok = false;
+        }
         previous = gray;
         cnt++;
     }
-    if(limit>0 && cnt>limit) cout<<"...\n"; //báo hiệu còn mã chưa in
-    cout<<"\033[36m"<<"Tong so ma Gray: "<<cnt<<"\033[0m"<<'\n';
-    return ok && cnt==total; //4. tổng số mã đã sinh đúng bằng 2^n
+    if(count<total) cout<<"...\n";
+    cout<<"\033[36m"<<"Da sinh: "<<cnt<<"\nTong so ma Gray theo cong thuc: "<<total<<"\033[0m"<<'\n';
+    if(count<total) cout<<"Chi kiem tra tinh chat 1 bit tren cac ma da sinh.\n";
+    return ok && cnt==count;
 }
 void print(const vector<int>& a){
     cout<<"{";
@@ -108,6 +125,16 @@ ll readLimit(){
     return limit;
 }
 
+// Giữ ngưỡng 10! để vẫn cho phép các test in toàn bộ hoán vị n <= 10.
+constexpr ll MAX_FULL_OUTPUT=3628800;
+bool checkOutputLimit(ll total, ll limit){
+    if(limit!=0 || total<=MAX_FULL_OUTPUT) return true;
+    cout<<"\033[31m"<<"Loi: tong so cau hinh la "<<total
+        <<", vuot nguong in tat ca "<<MAX_FULL_OUTPUT
+        <<". Hay nhap limit > 0."<<"\033[0m"<<"\n";
+    return false;
+}
+
 int main() {
     ios::sync_with_stdio(false); //tách cin/cout khỏi printf/scanf để in nhanh hơn (chương trình chỉ dùng cin/cout)
     while(true){
@@ -126,10 +153,10 @@ int main() {
             cout<<"\033[33m"<<"============================================"<<"\033[0m"<<"\n";
             ll n; cout<<"So luong phan tu (n): ";
             if(!readNumber(n)) continue;
-            //chặn n âm (có thể gây crash) và n quá lớn (sẽ in quá nhiều dòng)
+            //20! vẫn nằm trong long long.
             cout<<"--------------------------------------------\n";
-            if(n<0||n>10) {
-                cout<<"\033[31m"<<"Loi: n phai thoa 0 <= n <= 10"<<"\033[0m"<<"\n";
+            if(n<0||n>20) {
+                cout<<"\033[31m"<<"Loi: n phai thoa 0 <= n <= 20"<<"\033[0m"<<"\n";
                 continue;
             }
             vector<int> a(n);
@@ -142,14 +169,17 @@ int main() {
             ll limit=readLimit();
             if(limit<0) continue;
             sort(a.begin(),a.end()); //sắp xếp về hoán vị đầu tiên
+            ll total=permutationCount(a);
+            if(!checkOutputLimit(total,limit)) continue;
             ll cnt=0;//đếm lượt hoán vị
             cout<<"--------------------------------------------\n";
             do{
-                if(limit==0 || cnt<limit) print(a); //chỉ in limit hoán vị đầu tiên, vẫn đếm đủ
+                print(a);
                 cnt++;
+                if(limit>0 && cnt>=limit) break;
             } while(nextPermutation(a)); //tìm hoán vị tiếp theo, false là hết
-            if(limit>0 && cnt>limit) cout<<"...\n";
-            cout<<"\033[36m"<<"Tong so hoan vi: "<<cnt<<"\033[0m"<<'\n'; //để đối chiếu với n!
+            if(cnt<total) cout<<"...\n";
+            cout<<"\033[36m"<<"Da sinh: "<<cnt<<"\nTong so hoan vi theo cong thuc: "<<total<<"\033[0m"<<'\n';
             cout<<"\n";
         }
         else if(choice==2){
@@ -167,17 +197,20 @@ int main() {
             }
             ll limit=readLimit();
             if(limit<0) continue;
+            ll total=binom(n,k);
+            if(!checkOutputLimit(total,limit)) continue;
             cout<<"--------------------------------------------\n";
             vector<int> a(k);
             //tổ hợp đầu tiên {1,2,...,k}
             for(int i=0; i<k; i++) a[i]=i+1;
             ll cnt=0; //đếm lượt tạo tổ hợp
             do{
-                if(limit==0 || cnt<limit) print(a); //chỉ in limit tổ hợp đầu tiên, vẫn đếm đủ
+                print(a);
                 cnt++;
+                if(limit>0 && cnt>=limit) break;
             } while(nextCombination(a,n)); //lặp đến khi nextCombination trả false (hết tổ hợp)
-            if(limit>0 && cnt>limit) cout<<"...\n";
-            cout<<"\033[36m"<<"Tong so to hop: "<<cnt<<"\033[0m"<<'\n'; //để đối chiếu với C(n,k)
+            if(cnt<total) cout<<"...\n";
+            cout<<"\033[36m"<<"Da sinh: "<<cnt<<"\nTong so to hop theo cong thuc: "<<total<<"\033[0m"<<'\n';
             cout<<"\n";
 
         }
@@ -193,9 +226,10 @@ int main() {
             }
             ll limit=readLimit();
             if(limit<0) continue;
+            if(!checkOutputLimit(1LL<<n,limit)) continue;
             cout<<"--------------------------------------------\n";
-            if(graycode(n, limit)) cout<<"\033[36m"<<"Kiem tra Gray Code: DUNG"<<"\033[0m"<<"\n";
-            else cout<<"\033[31m"<<"Kiem tra Gray Code: SAI"<<"\033[0m"<<"\n";
+            if(graycode(n, limit)) cout<<"\033[36m"<<"Kiem tra cac ma Gray da sinh: DUNG"<<"\033[0m"<<"\n";
+            else cout<<"\033[31m"<<"Kiem tra cac ma Gray da sinh: SAI"<<"\033[0m"<<"\n";
             cout<<"\n";
         }
         else if(choice==4){
